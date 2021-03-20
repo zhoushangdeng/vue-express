@@ -1,0 +1,9 @@
+import { CSSProperties, VNodeTypes } from 'vue';
+import { Key } from '../_util/type';
+export declare type RenderFunc<T> = (item: T, index: number, props: {
+    style?: CSSProperties;
+}) => VNodeTypes;
+export interface SharedConfig<T> {
+    getKey: (item: T) => Key;
+}
+export declare type GetKey<T = object> = (item: T) => Key;
