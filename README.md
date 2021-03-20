@@ -1,2 +1,2 @@
 # dengruo
-Vue3+vite
+Vue3+vite+type
