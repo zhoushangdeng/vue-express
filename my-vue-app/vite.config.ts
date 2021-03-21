@@ -15,11 +15,11 @@ export default defineConfig({
     open: true,
     proxy: {
       // 选项写法
-      '/api': 'http://localhost:3001'//代理网址
+      '/api': 'http://localhost:3000'//代理网址
     },
     cors: true
   }
-  
+
 
 })
 

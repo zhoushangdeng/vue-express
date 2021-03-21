@@ -46,7 +46,7 @@
 </template>
 <script lang="ts" setup="props">
 import { setToken } from '@/util/auth'
-import { login, getNavList } from '@/api/user/login'
+import { login } from '@/api/user/login'
 import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'

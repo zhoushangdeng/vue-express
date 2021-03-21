@@ -26,5 +26,5 @@ app.use(session({
 
 app.use('/api/user', userApi);
 
-app.listen(3001);
-console.log('success listen at port:http://localhost:3001');
+app.listen(3000);
+console.log('success listen at port:http://localhost:3000');/*  */
