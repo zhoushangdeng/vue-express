@@ -1,58 +1,56 @@
 <template>
-  <el-container>
-    <el-header> dengruo </el-header>
+  <el-container class="home">
+    <el-header>灯若</el-header>
     <el-main>
-      <el-table
-        :data="tableData"
-        style="width: 100%; height: calc(100vh - 170px)"
-      >
-        <el-table-column prop="date" label="日期" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-      </el-table>
+      <el-row type="flex" justify="center" v-for="item in 5" :key="item">
+        <el-col :span="15">
+          <div class="content">
+            <h1 style="color: #ffff54">欢迎您访问我的主页</h1>
+            <el-divider content-position="left">dengruo</el-divider>
+            <p>幸会，我是dengruo</p>
+            <p>—— —— —— —— ——</p>
+            <p>一名前端开发工程师。</p>
+          </div>
+        </el-col>
+      </el-row>
     </el-main>
-    <el-footer>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="pageIndex"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-      />
-    </el-footer>
+    <el-footer> 灯若 </el-footer>
   </el-container>
 </template>
 <script lang="ts" setup="props">
 import { reactive, ref } from 'vue'
-const tableData = reactive([
-  {
-    date: '2016-05-02',
-    name: '王小小',
-    address: '长沙市普陀区金沙江路 1518 弄',
-  },
-  {
-    date: '2017-05-04',
-    name: '王小小',
-    address: '上海市普陀区金沙江路 1518 弄',
-  },
-  {
-    date: '2018-05-01',
-    name: '王小小',
-    address: '北京市普陀区金沙江路 1518 弄',
-  },
-  {
-    date: '2019-05-03',
-    name: '王小小',
-    address: '深圳市普陀区金沙江路 1518 弄',
-  },
-])
-const pageIndex = 1
-const handleSizeChange = (val) => {
-  console.log(`每页 ${val} 条`)
-}
-const handleCurrentChange = (val) => {}
 </script>
+<style lang="scss">
+.home {
+  background-image: url('@/assets/homeBackground.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-bacground-size: cover;
+  -o-background-size: cover;
+  .el-header,
+  .el-footer {
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    color: white;
+  }
+  .el-main {
+    margin: 0;
+    padding: 0;
+    height: calc(100vh - 120px);
+    .content {
+      height: 600px;
+      min-width: 400px;
+      background: rgba(73, 73, 69, 0.601);
+    }
+    p {
+      color: white;
+      text-align: start;
+      padding: 10px 0px 0px 20px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+  }
+}
+</style>

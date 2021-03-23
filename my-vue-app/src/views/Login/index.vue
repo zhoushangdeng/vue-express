@@ -85,7 +85,7 @@ const goLogin = async () => {
   })
 }
 </script>
-<style>
+<style lang="scss">
 .login {
   margin: 0;
   width: 100%;
@@ -95,6 +95,24 @@ const goLogin = async () => {
   background: linear-gradient(0deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
+  .el-header,
+  .el-footer {
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    /*   background-image: url('@/assets/莫哈韦沙漠晚上.jpg'); */
+    color: white;
+  }
+  .el-main {
+    margin: 0;
+    padding: 0;
+    height: calc(100vh - 120px);
+    /* background-image: url('@/assets/莫哈韦沙漠晚上.jpg'); */
+  }
+  p,
+  .el-form-item__label {
+    color: white;
+  }
 }
 @keyframes gradientBG {
   0% {
@@ -106,24 +124,5 @@ const goLogin = async () => {
   100% {
     background-position: 50% 50%;
   }
-}
-
-.el-header,
-.el-footer {
-  margin: 0;
-  padding: 0;
-  height: 35px;
-  /*   background-image: url('@/assets/莫哈韦沙漠晚上.jpg'); */
-  color: white;
-}
-.el-main {
-  margin: 0;
-  padding: 0;
-  height: calc(100vh - 120px);
-  /* background-image: url('@/assets/莫哈韦沙漠晚上.jpg'); */
-}
-p,
-.el-form-item__label {
-  color: white;
 }
 </style>
