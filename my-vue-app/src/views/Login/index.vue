@@ -47,7 +47,7 @@
 <script lang="ts" setup="props">
 import { setToken } from '@/util/auth'
 import { login } from '@/api/user/login'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElLoading } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 interface FormState {
@@ -69,13 +69,18 @@ const loginRules = reactive({
 })
 const goLogin = async () => {
   await formRef.value.validate(async (valid) => {
+    let loadingInstance = ElLoading.service({
+      fullscreen: true,
+      background: '#2c3e5000',
+    })
     if (valid) {
       const { code, data } = await login(formState)
-      console.log(data)
       if (code === 200) {
         ElMessage.success('登录成功！')
         setToken(data.token, data.id)
         router.push('/')
+
+        loadingInstance.close()
       } else {
         ElMessage.error(data)
       }
@@ -124,5 +129,27 @@ const goLogin = async () => {
   100% {
     background-position: 50% 50%;
   }
+}
+
+.el-loading-spinner {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  -webkit-animation: typing 2s linear infinite alternate;
+  -moz-animation: typing 1s linear infinite alternate;
+  animation: typing 2s linear infinite alternate;
+  margin: 10px auto; /* Not necessary- its only for layouting*/
+  position: relative;
+  left: 50px;
+}
+@keyframes typing {
+  75% {
+    background-color: rgb(2, 243, 130);
+    box-shadow: 40px 0px 0px 0px rgb(2, 243, 130),
+      80px 0px 0px 0px rgb(2, 243, 130);
+  }
+}
+.el-loading-spinner .circular {
+  display: none; //隐藏之前element-ui默认的loading动画
 }
 </style>

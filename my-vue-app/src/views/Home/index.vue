@@ -52,5 +52,68 @@ import { reactive, ref } from 'vue'
       font-size: 16px;
     }
   }
+  .el-loading-spinner {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    -webkit-animation: typing 1s linear infinite alternate;
+    -moz-animation: Typing 1s linear infinite alternate;
+    animation: typing 1s linear infinite alternate;
+    margin: 0px auto; /* Not necessary- its only for layouting*/
+    position: relative;
+    left: -40px;
+  }
+  @-webkit-keyframes typing {
+    0% {
+      background-color: rgba(247, 111, 73, 1);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 0.2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    25% {
+      background-color: rgba(247, 111, 73, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    75% {
+      background-color: rgba(247, 111, 73, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 0.2),
+        80px 0px 0px 0px rgba(247, 111, 73, 1);
+    }
+  }
+
+  @-moz-keyframes typing {
+    0% {
+      background-color: rgba(247, 111, 73, 1);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 0.2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    25% {
+      background-color: rgba(247, 111, 73, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    75% {
+      background-color: rgba(247, 111, 73, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 0.2),
+        80px 0px 0px 0px rgba(247, 111, 73, 1);
+    }
+  }
+  @keyframes typing {
+    0% {
+      background-color: rgba(247, 111, 73, 1);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 0.2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    25% {
+      background-color: rgba(247, 111, 73, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(247, 111, 73, 2),
+        80px 0px 0px 0px rgba(247, 111, 73, 0.2);
+    }
+    75% {
+      background-color: rgba(0, 184, 220, 0.4);
+      box-shadow: 40px 0px 0px 0px rgba(249, 54, 0, 0.2),
+        80px 0px 0px 0px rgb(2, 243, 130);
+    }
+  }
 }
 </style>
