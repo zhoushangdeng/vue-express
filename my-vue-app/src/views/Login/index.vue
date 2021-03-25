@@ -78,8 +78,7 @@ const goLogin = async () => {
       if (code === 200) {
         ElMessage.success('登录成功！')
         setToken(data.token, data.id)
-        router.push('/')
-
+        router.push('/Home')
         loadingInstance.close()
       } else {
         ElMessage.error(data)

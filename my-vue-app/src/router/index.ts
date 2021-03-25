@@ -5,12 +5,34 @@ import { getToken } from '../util/auth'
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
+    name: "Layout",
     meta: {
       title: "首页",
       keepAlive: true
     },
-    component: () => import("../views/Home/index.vue"),
+
+    component: () => import("../layout/index.vue"),
+    children: [
+      {
+        path: "/Home",
+        name: "Home",
+        meta: {
+          title: "首页",
+          keepAlive: true
+        },
+        component: () => import("../views/Home/index.vue"),
+      },
+      {
+        path: "/Contact",
+        name: "Contact",
+        meta: {
+          title: "Contact",
+          keepAlive: true
+        },
+        component: () => import("../views/Contact/index.vue"),
+      },
+
+    ]
   },
   {
     path: "/login",
@@ -20,6 +42,15 @@ const routes: Array<RouteRecordRaw> = [
       keepAlive: true
     },
     component: () => import("../views/Login/index.vue"),
+  },
+  {
+    path: "/selectUser",
+    name: "selectUser",
+    meta: {
+      title: "登录",
+      keepAlive: true
+    },
+    component: () => import("../views/selectUser/index.vue"),
   },
 ];
 const router = createRouter({

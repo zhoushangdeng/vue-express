@@ -1,8 +1,8 @@
 <template>
   <el-container class="home">
-    <el-header>灯若</el-header>
+    <el-header>灯若 </el-header>
     <el-main>
-      <el-row type="flex" justify="center" v-for="item in 5" :key="item">
+      <el-row type="flex" justify="center">
         <el-col :span="15">
           <div class="content">
             <h1 style="color: #ffff54">欢迎您访问我的主页</h1>
@@ -18,7 +18,7 @@
   </el-container>
 </template>
 <script lang="ts" setup="props">
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 </script>
 <style lang="scss">
 .home {
@@ -38,9 +38,9 @@ import { reactive, ref } from 'vue'
   .el-main {
     margin: 0;
     padding: 0;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 180px);
     .content {
-      height: 600px;
+      height: 90%;
       min-width: 400px;
       background: rgba(73, 73, 69, 0.601);
     }

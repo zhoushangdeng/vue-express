@@ -4,7 +4,7 @@ const app = express();
 const session = require("express-session");
 //配置中间件，是每个请求带上BodyParser，req会增加body参数，获取post请求传过来的数据，
 const bodyParser = require('body-parser');
-const userApi = require('./api/user/index');
+const userApi = require('./api/login');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //配置请求头, 跨域， 用了proxy代理服务就不需要该请求头
