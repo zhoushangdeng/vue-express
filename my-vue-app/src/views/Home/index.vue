@@ -18,16 +18,22 @@
   </el-container>
 </template>
 <script lang="ts" setup="props">
-import { reactive } from 'vue'
+import { reactive } from "vue";
 </script>
 <style lang="scss">
 .home {
-  background-image: url('@/assets/homeBackground.jpg');
+  background-image: url("@/assets/homeBackground.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-bacground-size: cover;
   -o-background-size: cover;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  /*   width: 1000px;
+  height: 100%; */
   .el-header,
   .el-footer {
     margin: 0;
@@ -36,8 +42,8 @@ import { reactive } from 'vue'
     color: white;
   }
   .el-main {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     height: calc(100vh - 180px);
     .content {
       height: 90%;

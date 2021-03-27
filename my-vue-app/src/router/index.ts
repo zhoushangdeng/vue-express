@@ -64,8 +64,8 @@ router.beforeEach((to, from) => {
   if (!getToken().token && to.fullPath != '/login') {
     router.push('/login')
   } else if (getToken().token && to.fullPath === '/login') {
-    router.push('/')
-  }
+    router.push('/Home')
+  } 
   NProgress.done()
 })
 export default router;
