@@ -51,8 +51,8 @@ import { ElMessage, ElLoading } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 interface FormState {
-  user: String
-  password: String
+  email: string
+  password: string
 }
 const router = useRouter()
 const formRef = ref()
@@ -69,20 +69,20 @@ const loginRules = reactive({
 })
 const goLogin = async () => {
   await formRef.value.validate(async (valid) => {
-    let loadingInstance = ElLoading.service({
-      fullscreen: true,
-      background: '#2c3e5000',
-    })
     if (valid) {
+      let loadingInstance = ElLoading.service({
+        fullscreen: true,
+        background: '#2c3e5000',
+      })
       const { code, data } = await login(formState)
       if (code === 200) {
         ElMessage.success('登录成功！')
         setToken(data.token, data.id)
         router.push('/Home')
-        loadingInstance.close()
       } else {
         ElMessage.error(data)
       }
+      loadingInstance.close()
     } else {
       console.log('no')
     }
