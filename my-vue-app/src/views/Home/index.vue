@@ -16,7 +16,9 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search"> 查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="select">
+            查询</el-button
+          >
         </el-form-item>
       </el-form>
     </el-header>
@@ -64,7 +66,8 @@
   </el-container>
 </template>
 <script lang="ts">
-import { ref, defineComponent, reactive } from 'vue'
+import { ref, defineComponent, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
 export default defineComponent({
   props: {},
   setup: () => {
@@ -123,7 +126,17 @@ export default defineComponent({
     const handleSizeChange = (val) => {}
     const handleCurrentChange = (val) => {}
     const pageIndex = ref(1)
+    const store = useStore()
+    const select = () => {
+      const userStore = computed(() => store.state.user) // 获取整个state
+      console.log('userStore', userStore)
+      const username = computed(() => store.state.user.username) // 获取单个state
+      console.log('userStore', userStore)
+      const getters = computed(() => store.getters) // 获取整个getters
+      console.log('userStore', userStore)
 
+      /*   const gUsername = computed(() => store.getters['user/username']) //获取单个getters */
+    }
     return {
       tableData,
       isSwitch,
@@ -131,6 +144,7 @@ export default defineComponent({
       handleCurrentChange,
       pageIndex,
       formInline,
+      select,
     }
   },
 })

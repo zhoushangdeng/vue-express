@@ -18,7 +18,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "Home",
         meta: {
           title: "首页",
-          keepAlive: true
+          keepAlive: true,
+          roles: ['admin', 'editor'] // 普通的用户角色
         },
         component: () => import("../views/Home/index.vue"),
       },
@@ -27,7 +28,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "Contact",
         meta: {
           title: "Contact",
-          keepAlive: true
+          keepAlive: true,
+          roles: ['admin']  //  editor角色的用户才能访问该页面
         },
         component: () => import("../views/Contact/index.vue"),
       },
@@ -43,29 +45,23 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import("../views/Login/index.vue"),
   },
-  {
-    path: "/selectUser",
-    name: "selectUser",
-    meta: {
-      title: "登录",
-      keepAlive: true
-    },
-    component: () => import("../views/selectUser/index.vue"),
-  },
 ];
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 });
 
-/* 路由守卫 */
-router.beforeEach((to, from) => {
+
+router.beforeEach((to, from, next) => {/* 路由守卫 */
   NProgress.start()
-  if (!getToken().token && to.fullPath != '/login') {
-    router.push('/login')
-  } else if (getToken().token && to.fullPath === '/login') {
-    router.push('/Home')
-  } 
+
+  if (getToken().token) {/* token存在则放行 */
+    next()
+
+  } else {
+
+    to.path == '/login' ? next() : next('/login')/* token不存在则中断导航，重新加载进入login页面 */
+  }
   NProgress.done()
 })
 export default router;

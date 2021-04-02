@@ -1,7 +1,7 @@
 <template>
   <el-container class="login">
     <el-header>
-      <h2>dengruo</h2>
+      <h2 style="text-align: center">dengruo</h2>
     </el-header>
     <el-main>
       <div style="height: 400px; width: 400px; margin: 0px auto">
@@ -12,15 +12,15 @@
           :rules="loginRules"
           :model="formState"
         >
-          <el-form-item label="用户名/邮箱" prop="email">
+          <el-form-item label="邮箱" prop="email">
             <el-input
-              v-model="formState.email"
+              v-model.trim="formState.email"
               placeholder="请输入用户名/邮箱"
             ></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input
-              v-model="formState.password"
+              v-model.trim="formState.password"
               type="password"
               placeholder="请输入密码，六位数以上"
               @keyup.enter.native="goLogin"
@@ -28,19 +28,25 @@
               <i slot="suffix" class="el-icon-view ispan" @click="showPwd"></i>
             </el-input>
           </el-form-item>
-          <el-button
-            @click="goLogin"
-            type="success"
-            round
-            @keyup.enter.native="goLogin"
-            >登录</el-button
-          >
+          <el-form-item>
+            <div style="display: flex; justify-content: center">
+              <el-button
+                @click="goLogin"
+                type="success"
+                round
+                @keyup.enter.native="goLogin"
+                >登录</el-button
+              >
+            </div>
+          </el-form-item>
         </el-form>
       </div>
     </el-main>
     <el-footer>
-      <p>服务热线：15074850577 Email：1912504939@qq.com</p>
-      <p>dengruo.com.cn(桂ICP备******) dengruo工作网版权所有©2019</p>
+      <p style="text-align: center">
+        服务热线：15074850577<br />
+        Email：1912504939@qq.com<br />
+      </p>
     </el-footer>
   </el-container>
 </template>
@@ -76,11 +82,22 @@ const goLogin = async () => {
       })
       const { code, data } = await login(formState)
       if (code === 200) {
+        router.addRoute('Layout', {
+          path: '/hello',
+          name: 'hello',
+          meta: {
+            title: 'hello',
+            keepAlive: false,
+          },
+          component: () => import('../hello/index.vue'),
+        })
         ElMessage.success('登录成功！')
         setToken(data.token, data.id)
         router.push('/Home')
+        loadingInstance.close()
       } else {
         ElMessage.error(data)
+        loadingInstance.close()
       }
       loadingInstance.close()
     } else {
