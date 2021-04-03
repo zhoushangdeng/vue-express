@@ -24,37 +24,49 @@ app.use(session({
 
 /* 登录 */
 app.post('/login', (req, res) => {
-    let body = req.body;
-    let sql = `select * from user where email='${body.email}' and password = '${aes.encryption(body.password)}'`;
-    query(sql, (error, vals) => {
-        let obj = {};
-        if (vals.length > 0) {
-            var timestamp = Date.parse(new Date());
-            let token = vals[0].id + vals[0].password + timestamp
-            let userID = vals[0].id;
-            obj = {
-                code: 200,
-                data: {
-                    id: userID,
-                    token: token
-                },
-                msg: 'success'
-            }
-            /* token写进redis */
-            db.setToken(userID, token);
 
-        } else {
-            obj = {
-                code: 401,
-                data: '用户名或密码无效!',
-                msg: error
-            }
+    try {
+        let body = req.body;
+        let sql = `select * from user where email='${body.email}' and password = '${aes.encryption(body.password)}'`;
+        query(sql, (error, vals) => {
+            let obj = {};
+            if (vals.length > 0) {
+                var timestamp = Date.parse(new Date());
+                let token = vals[0].id + vals[0].password + timestamp
+                let userID = vals[0].id;
+                obj = {
+                    code: 200,
+                    data: {
+                        id: userID,
+                        token: token
+                    },
+                    msg: 'success'
+                }
+                /* token写进redis */
+                db.setToken(userID, token);
 
-        }
-        res.json(obj);
+            } else {
+                obj = {
+                    code: 401,
+                    data: '用户名或密码无效!',
+                    msg: error
+                }
+
+            }
+            res.json(obj);
+            res.end();
+            return;
+        })
+    } catch (error) {
+        res.json({
+            code: 500,
+            data: '服务器出错了!',
+            msg: error
+        });
         res.end();
         return;
-    })
+    }
+
 })
 
 /* 首页菜单 */

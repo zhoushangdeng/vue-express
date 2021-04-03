@@ -50,61 +50,72 @@
     </el-footer>
   </el-container>
 </template>
-<script lang="ts" setup="props">
+<script lang="ts">
+import { ref, defineComponent, reactive } from 'vue'
 import { setToken } from '@/util/auth'
 import { login } from '@/api/user/login'
 import { ElMessage, ElLoading } from 'element-plus'
-import { reactive, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
-interface FormState {
-  email: string
-  password: string
-}
-const router = useRouter()
-const formRef = ref()
-const formState: FormState = reactive({
-  email: '',
-  password: '',
-})
-const loginRules = reactive({
-  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
-  ],
-})
-const goLogin = async () => {
-  await formRef.value.validate(async (valid) => {
-    if (valid) {
-      let loadingInstance = ElLoading.service({
-        fullscreen: true,
-        background: '#2c3e5000',
-      })
-      const { code, data } = await login(formState)
-      if (code === 200) {
-        router.addRoute('Layout', {
-          path: '/hello',
-          name: 'hello',
-          meta: {
-            title: 'hello',
-            keepAlive: false,
-          },
-          component: () => import('../hello/index.vue'),
-        })
-        ElMessage.success('登录成功！')
-        setToken(data.token, data.id)
-        router.push('/Home')
-        loadingInstance.close()
-      } else {
-        ElMessage.error(data)
-        loadingInstance.close()
-      }
-      loadingInstance.close()
-    } else {
-      console.log('no')
+export default defineComponent({
+  setup: () => {
+    interface FormState {
+      email: string
+      password: string
     }
-  })
-}
+    const router = useRouter()
+    const formRef = ref()
+    const formState: FormState = reactive({
+      email: '',
+      password: '',
+    })
+    const loginRules = reactive({
+      email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+      password: [
+        { required: true, message: '请输入密码', trigger: 'blur' },
+        { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
+      ],
+    })
+    const goLogin = async () => {
+      await formRef.value.validate(async (valid) => {
+        if (valid) {
+          let loadingInstance = ElLoading.service({
+            fullscreen: true,
+            background: '#2c3e5000',
+          })
+          const { code, data } = await login(formState)
+          if (code === 200) {
+            router.addRoute('Layout', {
+              path: '/hello',
+              name: 'hello',
+              meta: {
+                title: 'hello',
+                keepAlive: false,
+              },
+              component: () => import('../hello/index.vue'),
+            })
+            ElMessage.success('登录成功！')
+            setToken(data.token, data.id)
+            router.push('/Home')
+            loadingInstance.close()
+          } else {
+            ElMessage.error(data)
+            loadingInstance.close()
+          }
+          loadingInstance.close()
+        } else {
+          console.log('no')
+        }
+      })
+    }
+    return {
+      formRef,
+      formState,
+      loginRules,
+      goLogin,
+    }
+  },
+})
 </script>
 <style lang="scss">
 .login {

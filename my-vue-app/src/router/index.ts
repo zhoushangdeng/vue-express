@@ -56,6 +56,7 @@ router.beforeEach((to, from, next) => {/* 路由守卫 */
   NProgress.start()
 
   if (getToken().token) {/* token存在则放行 */
+
     next()
 
   } else {
