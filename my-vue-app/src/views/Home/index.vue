@@ -123,19 +123,17 @@ export default defineComponent({
     ]
     const isSwitch = ref(false)
 
-    const handleSizeChange = (val) => {}
-    const handleCurrentChange = (val) => {}
+    const handleSizeChange = (val: number) => {}
+    const handleCurrentChange = (val: number) => {}
     const pageIndex = ref(1)
     const store = useStore()
-    const select = () => {
-      const userStore = computed(() => store.state.user) // 获取整个state
-      console.log('userStore', userStore)
-      const username = computed(() => store.state.user.username) // 获取单个state
-      console.log('userStore', userStore)
-      const getters = computed(() => store.getters) // 获取整个getters
-      console.log('userStore', userStore)
 
-      /*   const gUsername = computed(() => store.getters['user/username']) //获取单个getters */
+    const select = () => {
+      /* console.log(store.state)
+      console.log(store.getters)
+      store.commit('getUserInfo', +new Date())
+      store.dispatch('asyncGetUserInfo', 'dengruo')
+      console.log(store.state) */
     }
     return {
       tableData,

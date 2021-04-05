@@ -23,9 +23,8 @@
               v-model.trim="formState.password"
               type="password"
               placeholder="请输入密码，六位数以上"
-              @keyup.enter.native="goLogin"
+              @keyup.enter="goLogin"
             >
-              <i slot="suffix" class="el-icon-view ispan" @click="showPwd"></i>
             </el-input>
           </el-form-item>
           <el-form-item>
@@ -34,7 +33,7 @@
                 @click="goLogin"
                 type="success"
                 round
-                @keyup.enter.native="goLogin"
+                @keyup.enter="goLogin"
                 >登录</el-button
               >
             </div>
@@ -52,11 +51,10 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent, reactive } from 'vue'
+import { ElMessage, ElLoading } from 'element-plus'
+import { useRouter } from 'vue-router'
 import { setToken } from '@/util/auth'
 import { login } from '@/api/user/login'
-import { ElMessage, ElLoading } from 'element-plus'
-
-import { useRouter } from 'vue-router'
 export default defineComponent({
   setup: () => {
     interface FormState {
@@ -77,35 +75,26 @@ export default defineComponent({
       ],
     })
     const goLogin = async () => {
-      await formRef.value.validate(async (valid) => {
-        if (valid) {
-          let loadingInstance = ElLoading.service({
-            fullscreen: true,
-            background: '#2c3e5000',
-          })
-          const { code, data } = await login(formState)
-          if (code === 200) {
-            router.addRoute('Layout', {
-              path: '/hello',
-              name: 'hello',
-              meta: {
-                title: 'hello',
-                keepAlive: false,
-              },
-              component: () => import('../hello/index.vue'),
-            })
-            ElMessage.success('登录成功！')
-            setToken(data.token, data.id)
-            router.push('/Home')
-            loadingInstance.close()
-          } else {
-            ElMessage.error(data)
-            loadingInstance.close()
+      await formRef.value.validate(async (valid: any) => {
+        let loadingInstance = ElLoading.service({
+          fullscreen: true,
+          background: '#2c3e5000',
+        })
+        try {
+          if (valid) {
+            const { code, data } = await login(formState)
+            if (code === 200) {
+              ElMessage.success('登录成功！')
+              setToken(data.token, data.id)
+              router.push('/Home')
+            } else {
+              ElMessage.error(data)
+            }
           }
-          loadingInstance.close()
-        } else {
-          console.log('no')
+        } catch (error) {
+          console.log(error)
         }
+        loadingInstance.close()
       })
     }
     return {
@@ -132,7 +121,6 @@ export default defineComponent({
     margin: 0;
     padding: 0;
     height: 35px;
-    /*   background-image: url('@/assets/莫哈韦沙漠晚上.jpg'); */
     color: white;
   }
   .el-main {
@@ -165,7 +153,7 @@ export default defineComponent({
   -webkit-animation: typing 2s linear infinite alternate;
   -moz-animation: typing 1s linear infinite alternate;
   animation: typing 2s linear infinite alternate;
-  margin: 10px auto; /* Not necessary- its only for layouting*/
+  margin: 10px auto;
   position: relative;
   left: 50px;
 }

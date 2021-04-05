@@ -1,8 +1,26 @@
-import { createStore } from "vuex";
-let files = import.meta.glob('./module/*.ts')
-
-console.log('files', files)
-
-export default createStore({
-    mixins: Object.values(files).map((v) => v.default),
+import { createStore } from 'vuex'
+const store = createStore({
+    state: {
+        userInfo: {
+            userID: '',
+            Menus: [],
+        }
+    },
+    mutations: {
+        getUserInfo(state, userID) {
+            state.userInfo.userID = userID
+        }
+    },
+    actions: {
+        asyncGetUserInfo({ commit }, val) {
+            commit("getUserInfo", val)
+        }
+    },
+    getters: {
+        userInfoGetter(state) {
+            return state.userInfo.userID
+        }
+    }
 })
+
+export default store
