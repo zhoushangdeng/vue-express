@@ -15,8 +15,8 @@
       >
         <el-submenu index="1">
           <template #title>
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
+            <i class="el-icon-user"></i>
+            <span>用户管理</span>
           </template>
           <el-menu-item-group>
             <template #title></template>
@@ -28,11 +28,9 @@
         </el-submenu>
         <el-menu-item index="2">
           <i class="el-icon-menu"></i>
-          <template #title>导航二</template>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <template #title> 导航四 </template>
+          <template #title
+            ><span @click="clickRoute('Menus')">菜单管理</span></template
+          >
         </el-menu-item>
       </el-menu>
       <div class="footer">
@@ -62,6 +60,7 @@ export default defineComponent({
       isCollapse,
       handleOpen,
       handleClose,
+      clickRoute,
     }
   },
 })

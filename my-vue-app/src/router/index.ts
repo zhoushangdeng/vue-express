@@ -21,9 +21,18 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "首页",
           keepAlive: true,
-          roles: ['admin', 'editor'] // 普通的用户角色
+         
         },
         component: () => import("../views/Home/index.vue"),
+      },
+      {
+        path: "/Menus",
+        name: "Menus",
+        meta: {
+          title: "菜单管理",
+          keepAlive: true,
+        },
+        component: () => import("../views/Menus/index.vue"),
       },
       {
         path: "/Contact",
