@@ -3,7 +3,9 @@ const store = createStore({
     state: {
         userInfo: {
             userID: '',
+            userName: 'deng',
             Menus: [],
+
         }
     },
     mutations: {

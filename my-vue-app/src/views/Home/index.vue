@@ -1,34 +1,18 @@
 <template>
   <el-container class="home">
     <el-header>
-      <el-form
-        :inline="true"
-        :model="formInline"
-        class="demo-form-inline"
-        size="mini"
-      >
+      <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
         <el-form-item>
-          <el-input
-            v-model.trim="formInline.user"
-            maxlength="30"
-            placeholder="请输入内容"
-            show-word-limit
-          ></el-input>
+          <el-input v-model.trim="formInline.user" maxlength="30" placeholder="请输入内容" show-word-limit></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="select">
-            查询</el-button
-          >
+            查询</el-button>
         </el-form-item>
       </el-form>
     </el-header>
     <el-main>
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%"
-        height="calc(100vh - 120px)"
-      >
+      <el-table :data="tableData" stripe style="width: 100%" height="calc(100vh - 120px)">
         <el-table-column prop="date" label="日期" width="180">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="180">
@@ -38,27 +22,15 @@
     </el-main>
     <el-footer>
       <el-row>
-        <el-col :span="3"
-          ><el-switch
-            style="margin-top: 10px"
-            v-model="isSwitch"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-text="收起"
-            inactive-text="展开"
-          >
+        <el-col :span="3">
+          <el-switch style="margin-top: 10px" v-model="isSwitch" active-color="#13ce66" inactive-color="#ff4949"
+            active-text="收起" inactive-text="展开">
           </el-switch>
         </el-col>
         <el-col :span="20">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageIndex"
-            :page-sizes="[10, 20, 30, 40, 50]"
-            :page-size="10"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="100"
-          >
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex"
+            :page-sizes="[10, 20, 30, 40, 50]" :page-size="10" layout="total, sizes, prev, pager, next, jumper"
+            :total="100">
           </el-pagination>
         </el-col>
       </el-row>
@@ -149,6 +121,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .home {
+  width: 100%;
   .el-header,
   .el-footer {
     margin: 0;

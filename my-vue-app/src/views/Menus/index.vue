@@ -1,19 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <el-form :inline="true" class="demo-form-inline">
-        <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-            size="mini"
-            @click="addMenus"
-            plain
-            >新增</el-button
-          >
-        </el-form-item>
-      </el-form>
-    </el-header>
     <el-main>
       <el-table
         :data="tableData"
@@ -106,7 +92,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template #default="{ row, $index }">
-            <div v-if="currentEdit === -1">
+            <div v-if="currentEdit === -1 || currentEdit !== $index">
               <el-button
                 icon="el-icon-plus"
                 size="mini"
@@ -147,6 +133,20 @@
         </el-table-column>
       </el-table>
     </el-main>
+    <el-footer>
+      <el-form :inline="true" class="demo-form-inline">
+        <el-form-item>
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            size="mini"
+            @click="addMenus"
+            plain
+            >新增</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-footer>
   </el-container>
 </template>
 <script lang="ts">
@@ -200,7 +200,7 @@ export default defineComponent({
   margin: 0px;
   padding: 0px;
 }
-.el-header {
+.el-footer {
   height: 40px !important;
   .el-form-item--mini.el-form-item,
   .el-form-item--small.el-form-item {

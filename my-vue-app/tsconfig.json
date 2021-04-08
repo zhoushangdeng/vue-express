@@ -22,7 +22,7 @@
         "./*"
       ]
     },
-    "include": [
+    "include": [//将它们从编译中排除
       "src/**/*.ts",
       "src/**/*.d.ts",
       "src/**/*.tsx",
