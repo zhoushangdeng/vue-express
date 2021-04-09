@@ -52,19 +52,18 @@ export default defineComponent({
   display: flex;
   display: -webkit-flex; /* 兼容Safari */
   height: 100vh;
-
+  width: 100%;
   .right {
     flex: 1; /* 占满剩余的空间 */
+    width: 0; /* 解决因为felx布局导致的，right因为lenf宽度改变而出现的bug */
     display: -webkit-flex; /* 兼容Safari */
     display: flex;
     flex-direction: column; /* 垂直显示 */
-    height: 100vh;
     .header {
       height: 30px;
     }
     .main {
       flex: 1; /* 占满剩余的空间 */
-      display: flex;
     }
   }
 }

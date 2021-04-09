@@ -3,7 +3,7 @@
     <div class="menu">
       <el-menu :uniqueOpened="true" default-active="2" class="el-menu-vertical-demo" @open="handleOpen"
         @close="handleClose" background-color="#2e3035" text-color="#fff" active-text-color="#ffd04b"
-        :collapse="isCollapse" style="height: calc(100vh - 80px)">
+        :collapse="isCollapse" :collapse-transition="true" style="height: calc(100vh - 40px)">
         <el-submenu index="1">
           <template #title>
             <i class="el-icon-user"></i>

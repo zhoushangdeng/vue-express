@@ -15,6 +15,7 @@ const routes: Array<RouteRecordRaw> = [
 
         component: () => import("../layout/index.vue"),
         children: [
+
             {
                 path: "/Home",
                 name: "Home",
@@ -55,6 +56,11 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import("../views/Login/index.vue"),
     },
+    {
+        path: '/404',
+        name: "404",
+        component: () => import('../views/error/index.vue')
+    },
 ];
 
 const router = createRouter({
@@ -64,10 +70,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {/* 路由守卫 */
     NProgress.start()
+    console.log(to.path == '/')
     if (getToken().token) {/* token存在则放行 */
 
         if (store.state.userInfo.userID) {
-            next()
+            if (to.matched.length === 0) {
+                next('404')
+                return
+            }
+            to.path === '/' ? next('Home') : to.path === '/login' ? next('Home') : next()
         } else {
             /* 如果userID不存在则注册路由，并改变vuex里的userID。防止因为刷新丢失路由问题 */
             store.commit('getUserInfo', getToken().id);
@@ -83,7 +94,8 @@ router.beforeEach((to, from, next) => {/* 路由守卫 */
             router.addRoute('Layout', Menus)/* 给layout添加子路由 */
             next({ ...to, replace: true });
         }
-    } else {
+    }
+    else {
 
         to.path == '/login' ? next() : next('/login')/* token不存在则中断导航，重新加载进入login页面 */
     }
