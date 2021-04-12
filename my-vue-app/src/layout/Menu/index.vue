@@ -1,28 +1,43 @@
 <template>
   <div class="Menu">
     <div class="menu">
-      <el-menu :uniqueOpened="true" default-active="2" class="el-menu-vertical-demo" @open="handleOpen"
-        @close="handleClose" background-color="#2e3035" text-color="#fff" active-text-color="#ffd04b"
-        :collapse="isCollapse" :collapse-transition="true" style="height: calc(100vh - 40px)">
-        <el-submenu index="1">
+      <el-menu
+        :uniqueOpened="true"
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#2e3035"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        :collapse="isCollapse"
+        :collapse-transition="true"
+        style="height: calc(100vh - 40px)"
+      >
+        <el-submenu index="1" v-for="(item, index) in menusTree" :key="index">
           <template #title>
             <i class="el-icon-user"></i>
-            <span>用户管理</span>
+            <span>{{ item.name }}</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1" @click="clickRoute('Menus')">菜单管理</el-menu-item>
-            <el-menu-item index="1-2" @click="clickRoute('Home')">首页</el-menu-item>
-            <el-menu-item index="1-3">选项3</el-menu-item>
-            <el-menu-item index="1-4">选项1</el-menu-item>
+            <el-menu-item
+              :index="index1 + '-' + index2"
+              @click="clickRoute(item2.path)"
+              v-for="(item2, index2) in item.children"
+              :key="index2"
+              >{{ item2.name }}</el-menu-item
+            >
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template #title>
             <i class="el-icon-user"></i>
-            <span>界面管理</span>
+            <span>用户管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-1" @click="clickRoute('Menus')"
+              >菜单管理</el-menu-item
+            >
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
             <el-menu-item index="2-4">选项1</el-menu-item>
@@ -31,15 +46,18 @@
       </el-menu>
     </div>
     <div class="footer">
-      <el-button :icon="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'" @click="isCollapse = !isCollapse" />
+      <el-button
+        :icon="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+        @click="isCollapse = !isCollapse"
+      />
     </div>
   </div>
-
 </template>
 
 <script lang="ts" >
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const isCollapse = ref(false)
@@ -51,11 +69,17 @@ export default defineComponent({
     const clickRoute = (val: string) => {
       router.push(val)
     }
+    const store = useStore()
+    const menusTree = store.state.userInfo.menusTree
+    onBeforeMount(() => {
+      console.log('menusTree', store.state.userInfo)
+    })
     return {
       isCollapse,
       handleOpen,
       handleClose,
       clickRoute,
+      menusTree,
     }
   },
 })

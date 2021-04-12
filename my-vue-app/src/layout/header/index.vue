@@ -1,5 +1,4 @@
 <template>
-
   <div class="nav">
     <div class="item1">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -10,7 +9,7 @@
       </el-breadcrumb>
     </div>
     <div class="item2">
-      <el-button type="text">{{userName}}</el-button>
+      <el-button type="text">{{ userName }}</el-button>
     </div>
   </div>
 </template>
@@ -22,7 +21,7 @@ import store from '@/store/index'
 export default defineComponent({
   setup() {
     const router = useRouter()
-    const userName = store.state.userInfo.userName
+    const userName: string = store.state.userInfo.userName
     const clickRoute = (val: string) => {
       router.push(val)
     }

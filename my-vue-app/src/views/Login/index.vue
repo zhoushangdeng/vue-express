@@ -55,6 +55,7 @@ import { ElMessage, ElLoading } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { setToken } from '@/util/auth'
 import { login } from '@/api/user/login'
+import { useStore } from 'vuex'
 export default defineComponent({
   setup: () => {
     interface FormState {
@@ -74,6 +75,7 @@ export default defineComponent({
         { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
       ],
     })
+    const store = useStore()
     const goLogin = async () => {
       await formRef.value.validate(async (valid: any) => {
         let loadingInstance = ElLoading.service({
@@ -83,8 +85,44 @@ export default defineComponent({
         try {
           if (valid) {
             const { code, data } = await login(formState)
-            if (code === 200) {
+            if (code == 200) {
               ElMessage.success('登录成功！')
+              const menusArr = [
+                {
+                  path: '/test',
+                  name: 'test',
+                  meta: {
+                    title: 'test',
+                    keepAlive: false,
+                  },
+                  component: 'test',
+                  children: [
+                    {
+                      path: '/test/test1',
+                      name: 'test1',
+                      meta: {
+                        title: 'test1',
+                        keepAlive: true,
+                      },
+                      component: () =>
+                        import('@/views/testTree/test1/index.vue'),
+                      children: [],
+                    },
+                    {
+                      path: '/test/test2',
+                      name: 'test2',
+                      meta: {
+                        title: 'test2',
+                        keepAlive: true,
+                      },
+                      component: () =>
+                        import('@/views/testTree/test2/index.vue'),
+                      children: [],
+                    },
+                  ],
+                },
+              ]
+              store.commit('getMenusTree', menusArr)
               setToken(data.token, data.id)
               router.push('/Home')
             } else {

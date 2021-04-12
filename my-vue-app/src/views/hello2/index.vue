@@ -1,6 +1,6 @@
 <template>
   <div>
-    hello world，
+    hello world2，
     <el-button>123</el-button>
   </div>
 </template>

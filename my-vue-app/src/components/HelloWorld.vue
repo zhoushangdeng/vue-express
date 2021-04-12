@@ -13,7 +13,7 @@ export default defineComponent({
     },
   },
   setup: () => {
-    const count = ref(0)
+    const count = ref<number | string>(0)
     return { count }
   },
 })

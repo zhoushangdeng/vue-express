@@ -58,31 +58,14 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {/* 路由守卫 */
+
+router.beforeEach(async (to, from, next) => {/* 路由守卫 */
   NProgress.start()
   if (getToken().token) {
     if (store.state.userInfo.userID) {
       if (to.matched.length === 0) {
-        const Menus = [
-          {/* 模拟后端返回的路由表 */
-            path: '/hello',
-            name: 'hello',
-            meta: {
-              title: 'hello',
-              keepAlive: false,
-            },
-            component: () => import('@/views/hello/index.vue'),
-          },
-          {/* 模拟后端返回的路由表 */
-            path: '/Contact',
-            name: 'Contact',
-            meta: {
-              title: 'Contact',
-              keepAlive: false,
-            },
-            component: () => import('@/views/Contact/index.vue'),
-          },
-        ]
+        const Menus = await store.dispatch('asyncGetmenus', '获取路由表');
+        console.log('Menus', Menus)
         Menus.map((item, index) => {
           if (item.path == to.path && index < Menus.length - 1) {
             router.addRoute('Layout', Menus[index]);
@@ -92,9 +75,9 @@ router.beforeEach((to, from, next) => {/* 路由守卫 */
             if (item.path == to.path) {
               router.addRoute('Layout', Menus[index]);
               next({ ...to, replace: true })
-            } else {
-              next('404')
+              return
             }
+            next('404')
           }
         })
       } else {
@@ -103,6 +86,8 @@ router.beforeEach((to, from, next) => {/* 路由守卫 */
       }
       return
     } else {
+      store.dispatch('asyncGetmenus', 'ok')
+      store.dispatch('getMenusTree', 'ok')
       store.commit('getUserInfo', getToken().id);/* 如果userID不存在则注册路由，并改变vuex里的userID。防止因为刷新丢失路由问题 */
       next({ ...to, replace: true });
     }
