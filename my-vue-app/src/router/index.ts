@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
       keepAlive: true
     },
 
-    component: () => import("../layout/index.vue"),
+    component: () => import("@/layout/index.vue"),
     children: [
 
       {
@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
           title: "首页",
           keepAlive: true,
         },
-        component: () => import("../views/Home/index.vue"),
+        component: () => import("@/views/Home/index.vue"),
       },
       {
         path: "/Menus",
@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
           title: "菜单管理",
           keepAlive: true,
         },
-        component: () => import("../views/Menus/index.vue"),
+        component: () => import("@/views/Menus/index.vue"),
       },
 
     ]
@@ -44,12 +44,12 @@ const routes: Array<RouteRecordRaw> = [
       title: "登录",
       keepAlive: true
     },
-    component: () => import("../views/Login/index.vue"),
+    component: () => import("@/views/Login/index.vue"),
   },
   {
     path: '/404',
     name: "404",
-    component: () => import('../views/error/index.vue')
+    component: () => import('@/views/error/index.vue')
   },
 ];
 
@@ -65,26 +65,29 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
     if (store.state.userInfo.userID) {
       if (to.matched.length === 0) {
         const Menus = await store.dispatch('asyncGetmenus', '获取路由表');
-        console.log('Menus', Menus)
-        Menus.map((item, index) => {
+        console.log('to.matched')
+        Menus.map((item: any, index: number) => {
           if (item.path == to.path && index < Menus.length - 1) {
             router.addRoute('Layout', Menus[index]);
+            console.log('to.matched1')
             next({ ...to, replace: true })
           }
           else if (Menus.length - 1 == index) {
             if (item.path == to.path) {
               router.addRoute('Layout', Menus[index]);
+              console.log('to.matched2')
               next({ ...to, replace: true })
-              return
+            } else {
+              console.log('to.path', to.path)
+              next('404')
             }
-            next('404')
+
           }
         })
       } else {
         to.path === '/' ? next('Home') : to.path === '/login' ? next('Home') : next()
         NProgress.done()
       }
-      return
     } else {
       store.dispatch('asyncGetmenus', 'ok')
       store.dispatch('getMenusTree', 'ok')

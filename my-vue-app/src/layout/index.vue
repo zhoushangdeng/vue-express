@@ -32,10 +32,10 @@ export default defineComponent({
       router.push(val)
     }
 
-    const handleOpen = (key, keyPath) => {
+    const handleOpen = (key: any, keyPath: any) => {
       console.log(key, keyPath)
     }
-    const handleClose = (key, keyPath) => {
+    const handleClose = (key: any, keyPath: any) => {
       console.log(key, keyPath)
     }
     return {

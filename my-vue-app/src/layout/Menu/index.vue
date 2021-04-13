@@ -14,16 +14,20 @@
         :collapse-transition="true"
         style="height: calc(100vh - 40px)"
       >
-        <el-submenu index="1" v-for="(item, index) in menusTree" :key="index">
+        <el-submenu
+          index="1"
+          v-for="(item1, index1) in menusTree"
+          :key="index1"
+        >
           <template #title>
             <i class="el-icon-user"></i>
-            <span>{{ item.name }}</span>
+            <span>{{ item1.name }}</span>
           </template>
           <el-menu-item-group>
             <el-menu-item
               :index="index1 + '-' + index2"
               @click="clickRoute(item2.path)"
-              v-for="(item2, index2) in item.children"
+              v-for="(item2, index2) in item1.children"
               :key="index2"
               >{{ item2.name }}</el-menu-item
             >
@@ -35,10 +39,12 @@
             <span>用户管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1" @click="clickRoute('Menus')"
+            <el-menu-item index="2-1" @click="clickRoute('/Menus')"
               >菜单管理</el-menu-item
             >
-            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-2" @click="clickRoute('/Home')"
+              >首页</el-menu-item
+            >
             <el-menu-item index="2-3">选项3</el-menu-item>
             <el-menu-item index="2-4">选项1</el-menu-item>
           </el-menu-item-group>
@@ -62,11 +68,14 @@ export default defineComponent({
   setup() {
     const isCollapse = ref(false)
 
-    const handleOpen = (key, keyPath) => {}
-    const handleClose = (key, keyPath) => {}
+    const handleOpen = () => {}
+    const handleClose = (key: any, keyPath: any) => {
+      console.log(key, keyPath)
+    }
 
     const router = useRouter()
     const clickRoute = (val: string) => {
+      console.log('val', val)
       router.push(val)
     }
     const store = useStore()

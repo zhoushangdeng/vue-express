@@ -25,16 +25,15 @@ const store = createStore({
             commit("getUserInfo", val)
         },
         async asyncGetmenus({ commit }, val) {
-            console.log()
             const menusArr = [
                 {
                     path: '/test',
                     name: 'test',
                     meta: {
                         title: 'test',
-                        keepAlive: false,
+                        keepAlive: true,
                     },
-                    component: 'test',
+                    component: () => import("@/views/testTree/index.vue"),
                     children: [
                         {
                             path: '/test/test1',
