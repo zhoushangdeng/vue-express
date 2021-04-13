@@ -136,6 +136,13 @@
     <el-footer>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
+          <el-input
+            size="mini"
+            v-model="input"
+            placeholder="请输入内容"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
           <el-button
             type="primary"
             icon="el-icon-plus"
@@ -155,8 +162,17 @@ export default defineComponent({
   setup() {
     const tableData = reactive([])
     let currentEdit = ref(-1)
+    interface dataType {
+      title: string
+      MenusID: string
+      ParentID: number
+      MenusName: string
+      Conponent: string
+      path: string
+      icon: string
+    }
     const addMenus = (val = 0) => {
-      tableData.unshift({
+      const data: dataType = {
         title: '',
         MenusID: '',
         ParentID: 0,
@@ -164,24 +180,26 @@ export default defineComponent({
         Conponent: '',
         path: '',
         icon: '',
-      })
+      }
+      tableData.unshift(data)
       currentEdit.value = 0
     }
-    const giveUp = (row, index) => {
+    const giveUp = (row: any, index: number) => {
       if (row.ParentID === 0 && !row.MenusID) {
         tableData.splice(index, 1)
         currentEdit.value = -1
       }
     }
-    const complete = (row, index) => {
+    const complete = (row: any, index: number) => {
       currentEdit.value = -1
     }
-    const edit = (index) => {
+    const edit = (row: any, index: number) => {
       currentEdit.value = index
     }
-    const deleteMenus = (row, index) => {
+    const deleteMenus = (row: any, index: number) => {
       tableData.splice(index, 1)
     }
+    const input = ref('')
     return {
       addMenus,
       tableData,
@@ -190,6 +208,7 @@ export default defineComponent({
       complete,
       edit,
       deleteMenus,
+      input,
     }
   },
 })

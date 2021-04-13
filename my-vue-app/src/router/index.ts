@@ -26,11 +26,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/Home/index.vue"),
       },
       {
-        path: "/Menus",
-        name: "Menus",
+        path: "/menus",
+        name: "menus",
         meta: {
           title: "菜单管理",
-          keepAlive: true,
+          /*           keepAlive: true, */
+
         },
         component: () => import("@/views/Menus/index.vue"),
       },

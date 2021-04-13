@@ -39,7 +39,7 @@
             <span>用户管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1" @click="clickRoute('/Menus')"
+            <el-menu-item index="2-1" @click="clickRoute('/menus')"
               >菜单管理</el-menu-item
             >
             <el-menu-item index="2-2" @click="clickRoute('/Home')"
@@ -55,6 +55,7 @@
       <el-button
         :icon="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
         @click="isCollapse = !isCollapse"
+        size="medium"
       />
     </div>
   </div>

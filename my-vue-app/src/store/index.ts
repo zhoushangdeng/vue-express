@@ -40,7 +40,7 @@ const store = createStore({
                             name: 'test1',
                             meta: {
                                 title: 'test1',
-                                keepAlive: true
+                                keepAlive: true,
                             },
                             component: () => import("@/views/testTree/test1/index.vue"),
                             children: [
