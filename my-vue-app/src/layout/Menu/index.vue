@@ -15,38 +15,22 @@
         style="height: calc(100vh - 40px)"
       >
         <el-submenu
-          index="1"
+          :index="index1"
           v-for="(item1, index1) in menusTree"
           :key="index1"
         >
           <template #title>
             <i class="el-icon-user"></i>
-            <span>{{ item1.name }}</span>
+            <span>{{ item1.name || '123' }}</span>
           </template>
           <el-menu-item-group>
             <el-menu-item
               :index="index1 + '-' + index2"
-              @click="clickRoute(item2.path)"
+              @click="clickRoute(item2)"
               v-for="(item2, index2) in item1.children"
               :key="index2"
               >{{ item2.name }}</el-menu-item
             >
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="2">
-          <template #title>
-            <i class="el-icon-user"></i>
-            <span>用户管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="clickRoute('/menus')"
-              >菜单管理</el-menu-item
-            >
-            <el-menu-item index="2-2" @click="clickRoute('/Home')"
-              >首页</el-menu-item
-            >
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-menu-item index="2-4">选项1</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -67,6 +51,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
+    const store = useStore()
     const isCollapse = ref(false)
 
     const handleOpen = () => {}
@@ -75,11 +60,18 @@ export default defineComponent({
     }
 
     const router = useRouter()
-    const clickRoute = (val: string) => {
-      console.log('val', val)
-      router.push(val)
+    const clickRoute = (item: any) => {
+      const existence = store.state.userInfo.cachedMenu.filter(
+        (item2, index) => item.name === item2.name
+      )
+      if (existence.length == 0) {
+        store.dispatch('addKeepAlive', item)
+      }
+      console.log('item', item)
+      store.dispatch('asyncClickRoute', item)
+      router.push(item.path)
     }
-    const store = useStore()
+
     const menusTree = store.state.userInfo.menusTree
     onBeforeMount(() => {
       console.log('menusTree', store.state.userInfo)

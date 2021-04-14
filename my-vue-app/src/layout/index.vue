@@ -60,7 +60,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column; /* 垂直显示 */
     .header {
-      height: 30px;
+      height: 90px;
     }
     .main {
       flex: 1; /* 占满剩余的空间 */

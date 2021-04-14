@@ -5,7 +5,9 @@ const store = createStore({
             userID: '',
             userName: 'deng',
             Menus: [],
-            menusTree: []
+            menusTree: [],
+            cachedMenu: [],
+            clickRoute: {}/* 当前点击的路由 */
         }
     },
     mutations: {
@@ -16,16 +18,59 @@ const store = createStore({
             state.userInfo.Menus = meuns
         },
         getMenusTree(state, menusTree) {
-            console.log('menusTree', menusTree)
             state.userInfo.menusTree = menusTree
+        },
+        getKeepAliveItem(state, val) {
+            state.userInfo.cachedMenu.push(val);
+        },
+        getclickRoute(state, val) {
+            state.userInfo.clickRoute = val;
         }
     },
     actions: {
+        asyncClickRoute({ commit }, val) {
+            commit("getclickRoute", val)
+        },
         asyncGetUserInfo({ commit }, val) {
             commit("getUserInfo", val)
         },
         async asyncGetmenus({ commit }, val) {
             const menusArr = [
+                {
+                    path: '/',
+                    name: '用户管理',
+                    meta: {
+                        title: 'Layout',
+                        keepAlive: true,
+                    },
+                    component: () => import("@/Layout/index.vue"),
+                    children: [
+                        {
+                            path: '/Home',
+                            name: '首页',
+                            meta: {
+                                title: 'Layout',
+                                keepAlive: true,
+                            },
+                            component: () => import("@/views/Home/index.vue"),
+                            children: [
+
+                            ]
+                        },
+                        {
+                            path: '/menus',
+                            name: '菜单管理',
+                            meta: {
+                                title: 'menus',
+                                keepAlive: true,
+                            },
+                            component: () => import("@/views/Menus/index.vue"),
+                            children: [
+
+                            ]
+                        }
+                    ]
+                },
                 {
                     path: '/test',
                     name: 'test',
@@ -60,7 +105,7 @@ const store = createStore({
                             ],
                         }
                     ],
-                }
+                },
             ]
             const meuns: any = []
             const arrs = (val: any) => {
@@ -78,15 +123,22 @@ const store = createStore({
                 return meuns
             }
             await arrs(menusArr)
+            console.log('menusArr', menusArr)
             commit("getMenusTree", menusArr)
             commit("getUserMenus", meuns);
 
             return meuns
-        }
+        },
+        async addKeepAlive({ commit }, val) {
+            commit("getKeepAliveItem", val)
+        },
     },
     getters: {
         userInfoGetter(state) {
             return state.userInfo.userID
+        },
+        getclickRoute(state) {
+            return state.userInfo.clickRoute
         }
     }
 })

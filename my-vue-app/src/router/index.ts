@@ -14,29 +14,7 @@ const routes: Array<RouteRecordRaw> = [
     },
 
     component: () => import("@/layout/index.vue"),
-    children: [
-
-      {
-        path: "/Home",
-        name: "Home",
-        meta: {
-          title: "首页",
-          keepAlive: true,
-        },
-        component: () => import("@/views/Home/index.vue"),
-      },
-      {
-        path: "/menus",
-        name: "menus",
-        meta: {
-          title: "菜单管理",
-          /*           keepAlive: true, */
-
-        },
-        component: () => import("@/views/Menus/index.vue"),
-      },
-
-    ]
+    children: []
   },
   {
     path: "/login",
@@ -65,24 +43,19 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
   if (getToken().token) {
     if (store.state.userInfo.userID) {
       if (to.matched.length === 0) {
-        const Menus = await store.dispatch('asyncGetmenus', '获取路由表');
-        console.log('to.matched')
+        const Menus: [] = await store.dispatch('asyncGetmenus', '获取路由表');
         Menus.map((item: any, index: number) => {
           if (item.path == to.path && index < Menus.length - 1) {
             router.addRoute('Layout', Menus[index]);
-            console.log('to.matched1')
             next({ ...to, replace: true })
           }
           else if (Menus.length - 1 == index) {
             if (item.path == to.path) {
               router.addRoute('Layout', Menus[index]);
-              console.log('to.matched2')
               next({ ...to, replace: true })
             } else {
-              console.log('to.path', to.path)
               next('404')
             }
-
           }
         })
       } else {
