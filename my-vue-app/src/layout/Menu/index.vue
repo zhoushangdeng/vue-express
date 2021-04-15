@@ -3,7 +3,7 @@
     <div class="menu">
       <el-menu
         :uniqueOpened="true"
-        default-active="2"
+        :default-active="defaultActive"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
@@ -15,9 +15,9 @@
         style="height: calc(100vh - 40px)"
       >
         <el-submenu
-          :index="index1"
           v-for="(item1, index1) in menusTree"
           :key="index1"
+          :index="index1 + 1"
         >
           <template #title>
             <i class="el-icon-user"></i>
@@ -25,8 +25,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item
-              :index="index1 + '-' + index2"
-              @click="clickRoute(item2)"
+              :index="index1 + 1 + '-' + (index2 + 1)"
+              @click="clickRoute(item2, index1 + 1 + '-' + (index2 + 1))"
               v-for="(item2, index2) in item1.children"
               :key="index2"
               >{{ item2.name }}</el-menu-item
@@ -46,26 +46,31 @@
 </template>
 
 <script lang="ts" >
-import { defineComponent, ref, onBeforeMount } from 'vue'
+import { defineComponent, ref, onBeforeMount, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const store = useStore()
     const isCollapse = ref(false)
-
-    const handleOpen = () => {}
+    const defaultActive = ref('1-1')
+    const handleOpen = (index: any) => {
+      console.log(index)
+    }
     const handleClose = (key: any, keyPath: any) => {
       console.log(key, keyPath)
     }
 
     const router = useRouter()
-    const clickRoute = (item: any) => {
+    const clickRoute = (item: any, defaultActiveIndex: string) => {
       const existence = store.state.userInfo.cachedMenu.filter(
-        (item2, index) => item.name === item2.name
+        (item2: any) => item.name === item2.name
       )
       if (existence.length == 0) {
-        store.dispatch('addKeepAlive', item)
+        store.dispatch('addKeepAlive', {
+          ...item,
+          defaultActiveIndex: defaultActiveIndex,
+        })
       }
       console.log('item', item)
       store.dispatch('asyncClickRoute', item)
@@ -82,6 +87,7 @@ export default defineComponent({
       handleClose,
       clickRoute,
       menusTree,
+      defaultActive: computed(() => store.state.userInfo.defaultActive),
     }
   },
 })

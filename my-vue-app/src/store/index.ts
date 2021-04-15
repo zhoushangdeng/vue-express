@@ -7,7 +7,8 @@ const store = createStore({
             Menus: [],
             menusTree: [],
             cachedMenu: [],
-            clickRoute: {}/* 当前点击的路由 */
+            clickRoute: {},/* 当前点击的路由 */
+            defaultActive: ''
         }
     },
     mutations: {
@@ -25,10 +26,16 @@ const store = createStore({
         },
         getclickRoute(state, val) {
             state.userInfo.clickRoute = val;
+        },
+        getdefaultActive(state, val) {
+            state.userInfo.defaultActive = val;
         }
     },
     actions: {
-        asyncClickRoute({ commit }, val) {
+        async asyncgetdefaultActive({ commit }, val) {
+            commit("getdefaultActive", val)
+        },
+        async asyncClickRoute({ commit }, val) {
             commit("getclickRoute", val)
         },
         asyncGetUserInfo({ commit }, val) {
@@ -36,46 +43,13 @@ const store = createStore({
         },
         async asyncGetmenus({ commit }, val) {
             const menusArr = [
-                {
-                    path: '/',
-                    name: '用户管理',
-                    meta: {
-                        title: 'Layout',
-                        keepAlive: true,
-                    },
-                    component: () => import("@/Layout/index.vue"),
-                    children: [
-                        {
-                            path: '/Home',
-                            name: '首页',
-                            meta: {
-                                title: 'Layout',
-                                keepAlive: true,
-                            },
-                            component: () => import("@/views/Home/index.vue"),
-                            children: [
+                /* 模拟后端返回路由表 */
 
-                            ]
-                        },
-                        {
-                            path: '/menus',
-                            name: '菜单管理',
-                            meta: {
-                                title: 'menus',
-                                keepAlive: true,
-                            },
-                            component: () => import("@/views/Menus/index.vue"),
-                            children: [
-
-                            ]
-                        }
-                    ]
-                },
                 {
                     path: '/test',
                     name: 'test',
                     meta: {
-                        title: 'test',
+                        title: '测试',
                         keepAlive: true,
                     },
                     component: () => import("@/views/testTree/index.vue"),
@@ -84,7 +58,7 @@ const store = createStore({
                             path: '/test/test1',
                             name: 'test1',
                             meta: {
-                                title: 'test1',
+                                title: '测试1',
                                 keepAlive: true,
                             },
                             component: () => import("@/views/testTree/test1/index.vue"),
@@ -96,7 +70,7 @@ const store = createStore({
                             path: '/test/test2',
                             name: 'test2',
                             meta: {
-                                title: 'test2',
+                                title: '测试2',
                                 keepAlive: true
                             },
                             component: () => import("@/views/testTree/test2/index.vue"),
@@ -105,6 +79,41 @@ const store = createStore({
                             ],
                         }
                     ],
+                },
+                {
+                    path: '/',
+                    name: '用户管理',
+                    meta: {
+                        title: '用户管理',
+                        keepAlive: true,
+                    },
+                    component: () => import("@/Layout/index.vue"),
+                    children: [
+                        {
+                            path: '/Home',
+                            name: '首页',
+                            meta: {
+                                title: '首页',
+                                keepAlive: true,
+                            },
+                            component: () => import("@/views/Home/index.vue"),
+                            children: [
+
+                            ]
+                        },
+                        {
+                            path: '/menus',
+                            name: '菜单管理',
+                            meta: {
+                                title: '菜单管理',
+                                keepAlive: true,
+                            },
+                            component: () => import("@/views/Menus/index.vue"),
+                            children: [
+
+                            ]
+                        }
+                    ]
                 },
             ]
             const meuns: any = []

@@ -10,7 +10,7 @@
         default-expand-all
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         size="mini"
-        height="calc(100vh - 100px)"
+        height="calc(100vh - 180px)"
       >
         <el-table-column prop="title" label="菜单标题">
           <template #default="{ row, $index }">
@@ -227,6 +227,6 @@ export default defineComponent({
   }
 }
 .el-main {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 180px);
 }
 </style>
