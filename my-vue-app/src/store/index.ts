@@ -6,7 +6,21 @@ const store = createStore({
             userName: 'deng',
             Menus: [],
             menusTree: [],
-            cachedMenu: [],
+            cachedMenu: [
+                {
+                    path: '/Home',
+                    name: '首页',
+                    meta: {
+                        title: '首页',
+                        keepAlive: true,
+                    },
+                    component: () => import("@/views/Home/index.vue"),
+                    children: [
+
+                    ],
+                    indexNum: '1'
+                },
+            ],
             clickRoute: {},/* 当前点击的路由 */
             defaultActive: ''
         }
@@ -21,7 +35,7 @@ const store = createStore({
         getMenusTree(state, menusTree) {
             state.userInfo.menusTree = menusTree
         },
-        getKeepAliveItem(state, val) {
+        getKeepAliveItem(state, val: any) {
             state.userInfo.cachedMenu.push(val);
         },
         getclickRoute(state, val) {
@@ -52,6 +66,7 @@ const store = createStore({
                         title: '测试',
                         keepAlive: true,
                     },
+                    indexNum: '4',
                     component: () => import("@/views/testTree/index.vue"),
                     children: [
                         {
@@ -65,6 +80,7 @@ const store = createStore({
                             children: [
 
                             ],
+                            indexNum: '4'
                         },
                         {
                             path: '/test/test2',
@@ -77,6 +93,7 @@ const store = createStore({
                             children: [
 
                             ],
+                            indexNum: '5'
                         }
                     ],
                 },
@@ -88,6 +105,7 @@ const store = createStore({
                         keepAlive: true,
                     },
                     component: () => import("@/Layout/index.vue"),
+                    indexNum: '1',
                     children: [
                         {
                             path: '/Home',
@@ -99,7 +117,8 @@ const store = createStore({
                             component: () => import("@/views/Home/index.vue"),
                             children: [
 
-                            ]
+                            ],
+                            indexNum: '1'
                         },
                         {
                             path: '/menus',
@@ -112,6 +131,7 @@ const store = createStore({
                             children: [
 
                             ]
+                            , indexNum: '3'
                         }
                     ]
                 },
@@ -123,7 +143,8 @@ const store = createStore({
                         path: item.path,
                         name: item.name,
                         meta: item.meta,
-                        component: item.component
+                        component: item.component,
+                        indexNum: item.indexNum
                     })
                     if (item.children.length > 0) {
                         arrs(item.children)
@@ -132,10 +153,8 @@ const store = createStore({
                 return meuns
             }
             await arrs(menusArr)
-            console.log('menusArr', menusArr)
             commit("getMenusTree", menusArr)
             commit("getUserMenus", meuns);
-
             return meuns
         },
         async addKeepAlive({ commit }, val) {

@@ -87,42 +87,6 @@ export default defineComponent({
             const { code, data } = await login(formState)
             if (code == 200) {
               ElMessage.success('登录成功！')
-              const menusArr = [
-                {
-                  path: '/test',
-                  name: 'test',
-                  meta: {
-                    title: 'test',
-                    keepAlive: false,
-                  },
-                  component: 'test',
-                  children: [
-                    {
-                      path: '/test/test1',
-                      name: 'test1',
-                      meta: {
-                        title: 'test1',
-                        keepAlive: true,
-                      },
-                      component: () =>
-                        import('@/views/testTree/test1/index.vue'),
-                      children: [],
-                    },
-                    {
-                      path: '/test/test2',
-                      name: 'test2',
-                      meta: {
-                        title: 'test2',
-                        keepAlive: true,
-                      },
-                      component: () =>
-                        import('@/views/testTree/test2/index.vue'),
-                      children: [],
-                    },
-                  ],
-                },
-              ]
-              store.commit('getMenusTree', menusArr)
               setToken(data.token, data.id)
               router.push('/Home')
             } else {

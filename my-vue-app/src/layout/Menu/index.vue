@@ -17,7 +17,7 @@
         <el-submenu
           v-for="(item1, index1) in menusTree"
           :key="index1"
-          :index="index1 + 1"
+          :index="item1.indexNum"
         >
           <template #title>
             <i class="el-icon-user"></i>
@@ -25,8 +25,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item
-              :index="index1 + 1 + '-' + (index2 + 1)"
-              @click="clickRoute(item2, index1 + 1 + '-' + (index2 + 1))"
+              :index="item2.indexNum"
+              @click="clickRoute(item2, item2.index)"
               v-for="(item2, index2) in item1.children"
               :key="index2"
               >{{ item2.name }}</el-menu-item
@@ -54,33 +54,23 @@ export default defineComponent({
     const store = useStore()
     const isCollapse = ref(false)
     const defaultActive = ref('1-1')
-    const handleOpen = (index: any) => {
-      console.log(index)
-    }
-    const handleClose = (key: any, keyPath: any) => {
-      console.log(key, keyPath)
-    }
+    const handleOpen = (index: any) => {}
+    const handleClose = (key: any, keyPath: any) => {}
 
     const router = useRouter()
     const clickRoute = (item: any, defaultActiveIndex: string) => {
       const existence = store.state.userInfo.cachedMenu.filter(
         (item2: any) => item.name === item2.name
       )
-      if (existence.length == 0) {
-        store.dispatch('addKeepAlive', {
-          ...item,
-          defaultActiveIndex: defaultActiveIndex,
-        })
+      if (existence.length == 0 && item.name !== '首页') {
+        store.dispatch('addKeepAlive', item)
       }
-      console.log('item', item)
       store.dispatch('asyncClickRoute', item)
       router.push(item.path)
     }
 
     const menusTree = store.state.userInfo.menusTree
-    onBeforeMount(() => {
-      console.log('menusTree', store.state.userInfo)
-    })
+    onBeforeMount(() => {})
     return {
       isCollapse,
       handleOpen,

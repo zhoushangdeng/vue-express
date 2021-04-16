@@ -2,7 +2,7 @@
   <div>
     <div class="nav">
       <div class="item1">
-        <el-breadcrumb separator="/" style="margin-top:3px">
+        <el-breadcrumb separator="/" style="margin-top: 3px">
           <el-breadcrumb-item
             v-for="(item, index) in matchedArr"
             :key="index"
@@ -29,7 +29,6 @@
           :label="item.name"
           :name="item.name"
         >
-          {{ item.content }}
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -58,20 +57,16 @@ export default defineComponent({
 
     const removeTab = (targetName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
-        if (item.name === targetName) {
+        if (item.name === targetName && targetName !== '首页') {
           store.state.userInfo.cachedMenu.splice(index, 1)
         }
       })
     }
     const matchedArr = reactive([])
     const tabClick = (targetName: any) => {
-      console.log(
-        'ctx.$router.currentRoute.value.fullPath',
-        ctx.$router.currentRoute.value
-      )
       store.state.userInfo.cachedMenu.map((item, index) => {
         if (item.name == targetName.props.name) {
-          store.dispatch('asyncgetdefaultActive', item.defaultActiveIndex)
+          store.dispatch('asyncgetdefaultActive', item.indexNum)
           router.push(item.path)
         }
       })
@@ -84,8 +79,8 @@ export default defineComponent({
       removeTab,
       tabClick,
       matchedArr: computed(() => {
-        let temp = [],
-          temps = []
+        let temp = []
+        let temps = []
         ctx.$router.currentRoute.value.matched.filter((item, index, self) => {
           if (item.meta.title) {
             const title = item.meta.title

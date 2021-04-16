@@ -63,8 +63,15 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
         NProgress.done()
       }
     } else {
-      store.dispatch('asyncGetmenus', 'ok')
-      store.dispatch('getMenusTree', 'ok')
+      const Menus: [] = await store.dispatch('asyncGetmenus');
+      if (to.path !== '/Home' && to.path !== '/') {
+        Menus.map((item) => {
+          if (item.path === to.path) {
+            store.dispatch('addKeepAlive', item)
+          }
+
+        })
+      }
       store.commit('getUserInfo', getToken().id);/* 如果userID不存在则注册路由，并改变vuex里的userID。防止因为刷新丢失路由问题 */
       next({ ...to, replace: true });
     }
