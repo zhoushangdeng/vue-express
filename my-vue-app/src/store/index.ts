@@ -76,7 +76,7 @@ const store = createStore({
                                 title: '测试1',
                                 keepAlive: true,
                             },
-                            component: () => import("@/views/testTree/test1/index.vue"),
+                            component: () => import('@' + '/views/testTree/test1/index.vue'),
                             children: [
 
                             ],

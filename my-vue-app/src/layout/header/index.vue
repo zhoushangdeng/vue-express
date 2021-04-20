@@ -59,6 +59,7 @@ export default defineComponent({
       store.state.userInfo.cachedMenu.map((item, index) => {
         if (item.name === targetName && targetName !== '首页') {
           store.state.userInfo.cachedMenu.splice(index, 1)
+          router.push(store.state.userInfo.cachedMenu[index - 1].path)
         }
       })
     }
