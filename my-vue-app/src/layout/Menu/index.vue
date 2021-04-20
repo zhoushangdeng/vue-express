@@ -20,7 +20,7 @@
           :index="item1.indexNum"
         >
           <template #title>
-            <i class="el-icon-user"></i>
+            <i :class="item1.icon"></i>
             <span>{{ item1.name || '123' }}</span>
           </template>
           <el-menu-item-group>
@@ -29,7 +29,8 @@
               @click="clickRoute(item2, item2.index)"
               v-for="(item2, index2) in item1.children"
               :key="index2"
-              >{{ item2.name }}</el-menu-item
+            >
+              <i :class="item2.icon"></i>{{ item2.name }}</el-menu-item
             >
           </el-menu-item-group>
         </el-submenu>

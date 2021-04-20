@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { getNavList } from '@/api/user/index'
 const store = createStore({
     state: {
         userInfo: {
@@ -14,7 +15,7 @@ const store = createStore({
                         title: '首页',
                         keepAlive: true,
                     },
-                    component: () => import("@/views/Home/index.vue"),
+                    component: () => import("../views/Home/index.vue"),
                     children: [
 
                     ],
@@ -56,47 +57,11 @@ const store = createStore({
             commit("getUserInfo", val)
         },
         async asyncGetmenus({ commit }, val) {
+
+            const { data } = await getNavList();/* 获取后端返回的路由表 */
+
             const menusArr = [
                 /* 模拟后端返回路由表 */
-
-                {
-                    path: '/test',
-                    name: 'test',
-                    meta: {
-                        title: '测试',
-                        keepAlive: true,
-                    },
-                    indexNum: '4',
-                    component: () => import("@/views/testTree/index.vue"),
-                    children: [
-                        {
-                            path: '/test/test1',
-                            name: 'test1',
-                            meta: {
-                                title: '测试1',
-                                keepAlive: true,
-                            },
-                            component: () => import('@' + '/views/testTree/test1/index.vue'),
-                            children: [
-
-                            ],
-                            indexNum: '4'
-                        },
-                        {
-                            path: '/test/test2',
-                            name: 'test2',
-                            meta: {
-                                title: '测试2',
-                                keepAlive: true
-                            },
-                            component: () => import("@/views/testTree/test2/index.vue"),
-                            children: [
-
-                            ],
-                            indexNum: '5'
-                        }
-                    ],
-                },
                 {
                     path: '/',
                     name: '用户管理',
@@ -106,6 +71,7 @@ const store = createStore({
                     },
                     component: () => import("@/Layout/index.vue"),
                     indexNum: '1',
+                    icon: 'el-icon-s-custom',
                     children: [
                         {
                             path: '/Home',
@@ -114,7 +80,8 @@ const store = createStore({
                                 title: '首页',
                                 keepAlive: true,
                             },
-                            component: () => import("@/views/Home/index.vue"),
+                            icon: 'el-icon-s-home',
+                            component: () => import("../views/Home/index.vue"),
                             children: [
 
                             ],
@@ -127,7 +94,8 @@ const store = createStore({
                                 title: '菜单管理',
                                 keepAlive: true,
                             },
-                            component: () => import("@/views/Menus/index.vue"),
+                            component: () => import('../views/Menus/index.vue'),
+                            icon: 'el-icon-setting',
                             children: [
 
                             ]
@@ -135,6 +103,48 @@ const store = createStore({
                         }
                     ]
                 },
+                {
+                    path: '/测试',
+                    name: '测试',
+                    meta: {
+                        title: '测试',
+                        keepAlive: true,
+                    },
+                    icon: 'el-icon-menu',
+                    indexNum: '4',
+                    component: () => import("../views/testTree/index.vue"),
+                    children: [
+                        {
+                            path: '/test/test1',
+                            name: 'test1',
+                            meta: {
+                                title: '测试1',
+                                keepAlive: true,
+                            },
+                            icon: 'el-icon-star-off',
+                            component: () => import('../views/testTree/test1/index.vue'),
+                            children: [
+
+                            ],
+                            indexNum: '4'
+                        },
+                        {
+                            path: '/test/test2',
+                            name: 'test2',
+                            meta: {
+                                title: '测试2',
+                                keepAlive: true
+                            },
+                            component: () => import("../views/testTree/test2/index.vue"),
+                            icon: 'el-icon-star-off',
+                            children: [
+
+                            ],
+                            indexNum: '5'
+                        }
+                    ],
+                },
+
             ]
             const meuns: any = []
             const arrs = (val: any) => {

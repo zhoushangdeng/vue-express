@@ -55,7 +55,6 @@ import { ElMessage, ElLoading } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { setToken } from '@/util/auth'
 import { login } from '@/api/user/login'
-import { useStore } from 'vuex'
 export default defineComponent({
   setup: () => {
     interface FormState {
@@ -75,7 +74,6 @@ export default defineComponent({
         { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
       ],
     })
-    const store = useStore()
     const goLogin = async () => {
       await formRef.value.validate(async (valid: any) => {
         let loadingInstance = ElLoading.service({

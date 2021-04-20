@@ -23,7 +23,7 @@ app.use(session({
 }))
 
 /* 登录 */
-app.post('/login', (req, res) => {
+app.post('/userLogin', (req, res) => {
 
     try {
         let body = req.body;

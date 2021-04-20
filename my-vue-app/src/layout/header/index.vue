@@ -19,7 +19,7 @@
         v-model="$route.name"
         type="card"
         closable
-        @tab-remove="removeTab"
+        @tab-remove="(targetName) => removeTab(targetName, $route.name)"
         @tab-click="tabClick"
         size="mini"
       >
@@ -55,11 +55,13 @@ export default defineComponent({
       router.push(val)
     }
 
-    const removeTab = (targetName: any) => {
+    const removeTab = (targetName: any, routeName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
         if (item.name === targetName && targetName !== '首页') {
           store.state.userInfo.cachedMenu.splice(index, 1)
-          router.push(store.state.userInfo.cachedMenu[index - 1].path)
+          if (targetName === routeName) {
+            router.push(store.state.userInfo.cachedMenu[index - 1].path)
+          }
         }
       })
     }

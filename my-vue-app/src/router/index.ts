@@ -3,7 +3,6 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '../util/auth'
 import store from '@/store/index'
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",

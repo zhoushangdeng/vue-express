@@ -1,148 +1,144 @@
 <template>
   <el-container class="home">
-    <el-header>
-      <el-form
-        :inline="true"
-        :model="formInline"
-        class="demo-form-inline"
-        size="mini"
-      >
-        <el-form-item>
-          <el-input
-            v-model.trim="formInline.user"
-            maxlength="30"
-            placeholder="请输入内容"
-            show-word-limit
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="select">
-            查询</el-button
-          >
-        </el-form-item>
-      </el-form>
-    </el-header>
     <el-main>
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%"
-        height="calc(100vh - 180px)"
+      <div
+        style="display: flex; width: 100%; height: 100%; flex-direction: column"
       >
-        <el-table-column prop="date" label="日期" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-      </el-table>
+        <div id="echartsRef" style="flex: 1"></div>
+        <div>
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%; height: 200px !important"
+            size="mini"
+          >
+            <el-table-column prop="date" align="center" label="类别">
+            </el-table-column>
+            <el-table-column prop="A" align="center" label="A" />
+            <el-table-column prop="B" align="center" label="B" />
+            <el-table-column prop="C" align="center" label="A" />
+            <el-table-column prop="D" align="center" label="B" />
+            <el-table-column prop="E" align="center" label="A" />
+          </el-table>
+        </div>
+      </div>
     </el-main>
-    <el-footer>
-      <el-row>
-        <el-col :span="3">
-          <el-switch
-            style="margin-top: 10px"
-            v-model="isSwitch"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-text="收起"
-            inactive-text="展开"
-          >
-          </el-switch>
-        </el-col>
-        <el-col :span="20">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageIndex"
-            :page-sizes="[10, 20, 30, 40, 50]"
-            :page-size="10"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="100"
-          >
-          </el-pagination>
-        </el-col>
-      </el-row>
-    </el-footer>
   </el-container>
 </template>
 <script lang="ts">
-import { ref, defineComponent, reactive, computed } from 'vue'
-import { useStore } from 'vuex'
+import { ref, defineComponent, reactive, computed, onMounted } from 'vue'
+import * as echarts from 'echarts'
+
 export default defineComponent({
   props: {},
   setup: () => {
-    interface FormState {
-      user: string
-      region: string
-    }
-    const formInline: FormState = reactive({
-      user: '',
-      region: '',
-    })
     const tableData = [
       {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
+        date: '类别1',
+        A: 200,
+        B: 140,
+        C: 34,
+        D: 43,
+        E: 65,
       },
       {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄',
+        date: '类别2',
+        A: 200,
+        B: 140,
+        C: 34,
+        D: 43,
+        E: 65,
       },
       {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-      },
-      {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-      },
-      {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-      },
-      {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄',
-      },
-      {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-      },
-      {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
+        date: '类别3',
+        A: 200,
+        B: 140,
+        C: 34,
+        D: 43,
+        E: 65,
       },
     ]
-    const isSwitch = ref(false)
 
-    const handleSizeChange = (val: number) => {}
-    const handleCurrentChange = (val: number) => {}
-    const pageIndex = ref(1)
-    const store = useStore()
-
-    const select = () => {
-      /* console.log(store.state)
-      console.log(store.getters)
-      store.commit('getUserInfo', +new Date())
-      store.dispatch('asyncGetUserInfo', 'dengruo')
-      console.log(store.state) */
-    }
+    onMounted(() => {
+      const echartsRefs = echarts.init(document.getElementById('echartsRef'))
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#999',
+            },
+          },
+        },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true },
+          },
+        },
+        legend: {
+          data: ['A', 'B', 'C', 'D', 'E', 'F'],
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['类别A', '类别B', '类别C'],
+            axisPointer: {
+              type: 'shadow',
+            },
+          },
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            name: '数量',
+            axisLabel: {
+              formatter: '{value}',
+            },
+          },
+          {
+            type: 'value',
+            name: '数量',
+            axisLabel: {
+              formatter: '{value}',
+            },
+          },
+        ],
+        series: [
+          {
+            name: 'A',
+            type: 'bar',
+            data: [20, 49, 170],
+          },
+          {
+            name: 'B',
+            type: 'bar',
+            data: [26, 59, 190],
+          },
+          {
+            name: 'C',
+            type: 'bar',
+            data: [26, 59, 90],
+          },
+          {
+            name: 'D',
+            type: 'bar',
+            data: [26, 159, 90],
+          },
+          {
+            name: 'E',
+            type: 'bar',
+            data: [126, 59, 90],
+          },
+        ],
+      }
+      echartsRefs.setOption(option)
+    })
     return {
       tableData,
-      isSwitch,
-      handleSizeChange,
-      handleCurrentChange,
-      pageIndex,
-      formInline,
-      select,
     }
   },
 })
