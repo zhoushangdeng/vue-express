@@ -54,7 +54,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const isCollapse = ref(false)
-    const defaultActive = ref('1-1')
+    const defaultActive = ref('1')
     const handleOpen = (index: any) => {}
     const handleClose = (key: any, keyPath: any) => {}
 

@@ -16,9 +16,9 @@
             </el-table-column>
             <el-table-column prop="A" align="center" label="A" />
             <el-table-column prop="B" align="center" label="B" />
-            <el-table-column prop="C" align="center" label="A" />
-            <el-table-column prop="D" align="center" label="B" />
-            <el-table-column prop="E" align="center" label="A" />
+            <el-table-column prop="C" align="center" label="C" />
+            <el-table-column prop="D" align="center" label="D" />
+            <el-table-column prop="E" align="center" label="E" />
           </el-table>
         </div>
       </div>

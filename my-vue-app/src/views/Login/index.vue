@@ -84,7 +84,7 @@ export default defineComponent({
           if (valid) {
             const { code, data } = await login(formState)
             if (code == 200) {
-              ElMessage.success('登录成功！')
+              //ElMessage.success('登录成功！')
               setToken(data.token, data.id)
               router.push('/Home')
             } else {

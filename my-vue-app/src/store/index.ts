@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { getNavList } from '@/api/user/index'
+
 const store = createStore({
     state: {
         userInfo: {
@@ -23,7 +24,7 @@ const store = createStore({
                 },
             ],
             clickRoute: {},/* 当前点击的路由 */
-            defaultActive: ''
+            defaultActive: '1'
         }
     },
     mutations: {
@@ -58,7 +59,15 @@ const store = createStore({
         },
         async asyncGetmenus({ commit }, val) {
 
-            const { data } = await getNavList();/* 获取后端返回的路由表 */
+            const { data } = await getNavList({
+                data: '123'
+            });/* 获取后端返回的路由表 */
+
+            const str = 'Menus';
+            //const modules = import.meta.glob('../views/**/**/index.vue'); /* 读取views下面的素有index.vue */
+            // console.log('userVuex', userVuex)
+            // const modules = import.meta.glob(`../views/${str}/index.vue`); /* 错误写法，没用 */
+            // const modules = import.meta.glob('../views/Menus/index.vue'); /* 正确写法 */
 
             const menusArr = [
                 /* 模拟后端返回路由表 */

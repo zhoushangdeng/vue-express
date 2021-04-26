@@ -14,7 +14,6 @@ export default defineConfig({
     port: 4000,//启动端口
     open: true,
     proxy: {
-      // 选项写法
       '/api': 'http://localhost:3000'//代理网址
     },
     cors: true
