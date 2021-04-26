@@ -26,6 +26,9 @@ app.use(session({
 app.get('/getNavList', (req, res) => {
     tokenMatching(req, res, (data) => {
 
+        console.log('req.query', req.query);
+
+
         const menusArr = [
             /* 模拟后端返回路由表 */
 

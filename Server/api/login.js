@@ -70,10 +70,11 @@ app.post('/userLogin', (req, res) => {
 })
 
 /* 首页菜单 */
-app.post('/getNavList', (req, res) => {
-    tokenMatching(req, res, (data) => {
-
-    })
+app.get('/getNavList', (req, res) => {
+    console.log('req.query', req);
+    /*  tokenMatching(req, res, (data) => {
+ 
+     }) */
 })
 
 
