@@ -35,6 +35,12 @@
                 round
                 @keyup.enter="goLogin"
                 >登录</el-button
+              ><el-button
+                @click="router.push('/register')"
+                type="success"
+                round
+                @keyup.enter="router.push('/register')"
+                >注册</el-button
               >
             </div>
           </el-form-item>
@@ -74,6 +80,7 @@ export default defineComponent({
         { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
       ],
     })
+
     const goLogin = async () => {
       await formRef.value.validate(async (valid: any) => {
         let loadingInstance = ElLoading.service({
@@ -102,6 +109,7 @@ export default defineComponent({
       formState,
       loginRules,
       goLogin,
+      router,
     }
   },
 })

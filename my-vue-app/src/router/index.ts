@@ -25,6 +25,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/Login/index.vue"),
   },
   {
+    path: "/register",
+    name: "register",
+    meta: {
+      title: "登录",
+      keepAlive: true
+    },
+    component: () => import("@/views/register/index.vue"),
+  },
+  {
     path: '/404',
     name: "404",
     component: () => import('@/views/error/index.vue')
@@ -76,7 +85,14 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
     }
     return
   }
-  to.path == '/login' ? next() : next('/login')/* token不存在则中断导航，重新加载进入login页面 */
+  else if (to.path == '/login') {
+    next()
+  } else if (to.path == '/register') {
+    next()
+  } else {
+    next('/login')
+  }
+  //to.path == '/login' ? next() : next('/login')/* token不存在则中断导航，重新加载进入login页面 */
   NProgress.done()
 })
 export default router;
