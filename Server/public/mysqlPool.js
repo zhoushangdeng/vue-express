@@ -22,4 +22,19 @@ var query = function (sql, callback) {
     });
 };
 
+/* const query2 = new Promise((reject, resole) => {
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            reject(err, null, null);
+        } else {
+            conn.query(sql, function (qerr, vals, fields) {
+                //释放连接,关闭--
+                conn.release();
+                //事件驱动回调
+                resole(qerr, vals, fields);
+            });
+        }
+    })
+}) */
+
 module.exports = query;

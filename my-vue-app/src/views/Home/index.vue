@@ -1,10 +1,11 @@
 <template>
   <el-container class="home">
     <el-main>
-      <div
-        style="display: flex; width: 100%; height: 100%; flex-direction: column"
-      >
-        <div id="echartsRef" style="flex: 1"></div>
+      <div style="display: flex; width: 100%; height: 100%; flex-direction: column">
+        <div
+          id="echartsRef"
+          style="flex: 1"
+        ></div>
         <div>
           <el-table
             :data="tableData"
@@ -12,13 +13,37 @@
             style="width: 100%; height: 200px !important"
             size="mini"
           >
-            <el-table-column prop="date" align="center" label="类别">
+            <el-table-column
+              prop="date"
+              align="center"
+              label="类别"
+            >
             </el-table-column>
-            <el-table-column prop="A" align="center" label="A" />
-            <el-table-column prop="B" align="center" label="B" />
-            <el-table-column prop="C" align="center" label="C" />
-            <el-table-column prop="D" align="center" label="D" />
-            <el-table-column prop="E" align="center" label="E" />
+            <el-table-column
+              prop="A"
+              align="center"
+              label="A"
+            />
+            <el-table-column
+              prop="B"
+              align="center"
+              label="B"
+            />
+            <el-table-column
+              prop="C"
+              align="center"
+              label="C"
+            />
+            <el-table-column
+              prop="D"
+              align="center"
+              label="D"
+            />
+            <el-table-column
+              prop="E"
+              align="center"
+              label="E"
+            />
           </el-table>
         </div>
       </div>
@@ -27,6 +52,7 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent, reactive, computed, onMounted } from 'vue'
+import logins from '@/views/Login'
 import * as echarts from 'echarts'
 
 export default defineComponent({
@@ -139,6 +165,7 @@ export default defineComponent({
     })
     return {
       tableData,
+      logins,
     }
   },
 })

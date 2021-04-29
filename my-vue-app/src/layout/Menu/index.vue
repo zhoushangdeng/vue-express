@@ -23,6 +23,7 @@
             <i :class="item1.icon"></i>
             <span>{{ item1.name || '123' }}</span>
           </template>
+
           <el-menu-item-group>
             <el-menu-item
               :index="item2.indexNum"
@@ -30,8 +31,8 @@
               v-for="(item2, index2) in item1.children"
               :key="index2"
             >
-              <i :class="item2.icon"></i>{{ item2.name }}</el-menu-item
-            >
+              <i :class="item2.icon"></i>{{ item2.name }}
+            </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -71,7 +72,7 @@ export default defineComponent({
     }
 
     const menusTree = store.state.userInfo.menusTree
-    onBeforeMount(() => {})
+
     return {
       isCollapse,
       handleOpen,

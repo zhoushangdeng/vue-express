@@ -2,16 +2,36 @@
   <div>
     <div class="nav">
       <div class="item1">
-        <el-breadcrumb separator="/" style="margin-top: 3px">
+        <el-breadcrumb
+          separator="/"
+          style="margin-top: 3px"
+        >
           <el-breadcrumb-item
             v-for="(item, index) in matchedArr"
             :key="index"
-            >{{ item }}</el-breadcrumb-item
-          >
+          >{{ item }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div class="item2">
-        <el-button type="text">{{ userName }}</el-button>
+        <el-popover
+          placement="bottom"
+          trigger="click"
+          :width="90"
+        >
+          <template #reference>
+            <el-button type="text">{{userName}}</el-button>
+          </template>
+          <div style="display: flex;justify-content: center;">
+            <el-button
+              type="primary"
+              @click="signOut"
+              size="small"
+            >
+              退出登录
+            </el-button>
+          </div>
+        </el-popover>
+
       </div>
     </div>
     <div>
@@ -36,15 +56,10 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  getCurrentInstance,
-} from 'vue'
+import { defineComponent, reactive, computed, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { removeToken } from '@/util/auth'
 export default defineComponent({
   setup() {
     const store = useStore()
@@ -74,8 +89,13 @@ export default defineComponent({
         }
       })
     }
+    const signOut = () => {
+      removeToken()
+      router.push('/login')
+    }
 
     return {
+      signOut,
       cachedMenu: computed(() => store.state.userInfo.cachedMenu),
       clickRoute,
       userName,
@@ -113,6 +133,14 @@ export default defineComponent({
   }
   .item2 {
     width: 100px;
+  }
+  .signOut {
+    display: flex;
+    justify-content: center;
+    div {
+      border-bottom: 2px solid black;
+      margin-bottom: 10px;
+    }
   }
 }
 </style>

@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'App',
-  data() {
+  data () {
     return {
       waves: [],
       wavesConfig: {
@@ -49,14 +49,14 @@ export default {
       },
     }
   },
-  mounted() {
+  mounted () {
     document.getElementById('app').onclick = (e) => {
       this.createWave(e)
       this.intervalClearWave()
     }
   },
   methods: {
-    createWave(e) {
+    createWave (e) {
       // 让新生成的波纹始终在之前波纹的上层产生叠加效果
       if (this.wavesConfig.zIndexCount > 99999) {
         this.wavesConfig.zIndexCount = 999
@@ -66,7 +66,7 @@ export default {
       // 在一定范围内随机生成波纹的大小
       const waveSize = parseInt(
         Math.random() * (this.wavesConfig.maxSize - this.wavesConfig.minSize) +
-          this.wavesConfig.minSize
+        this.wavesConfig.minSize
       )
       //添加新的波纹数据
       this.waves.push({
@@ -77,7 +77,7 @@ export default {
         height: `${waveSize}px`,
       })
     },
-    intervalClearWave() {
+    intervalClearWave () {
       clearTimeout(this.clear.timeoutId)
       this.clear.timeoutId = setTimeout(() => {
         this.waves = []
@@ -100,6 +100,20 @@ body {
   padding: 0;
   height: 100vh;
   cursor: pointer;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+//滚动条的滑块
+::-webkit-scrollbar-thumb {
+  background-color: #063b5a27;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(128, 128, 128);
 }
 .waves {
   .wave {

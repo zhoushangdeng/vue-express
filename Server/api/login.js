@@ -68,7 +68,15 @@ app.post('/userLogin', (req, res) => {
     }
 
 })
+app.get('/getDataApi', (req, res) => {
 
+    res.json({
+        data: '传给前端的数据'
+    });
+    res.end();
+    return;
+
+})
 /* 首页菜单 */
 app.get('/getNavList', (req, res) => {
     console.log('req.query', req);

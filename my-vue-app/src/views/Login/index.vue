@@ -12,13 +12,19 @@
           :rules="loginRules"
           :model="formState"
         >
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item
+            label="邮箱"
+            prop="email"
+          >
             <el-input
               v-model.trim="formState.email"
               placeholder="请输入用户名/邮箱"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item
+            label="密码"
+            prop="password"
+          >
             <el-input
               v-model.trim="formState.password"
               type="password"
@@ -28,28 +34,31 @@
             </el-input>
           </el-form-item>
           <el-form-item>
+
             <div style="display: flex; justify-content: center">
               <el-button
                 @click="goLogin"
                 type="success"
                 round
                 @keyup.enter="goLogin"
-                >登录</el-button
-              ><el-button
-                @click="router.push('/register')"
-                type="success"
-                round
-                @keyup.enter="router.push('/register')"
-                >注册</el-button
-              >
+              >登录</el-button>
             </div>
+            <div style="display: flex; justify-content: flex-end">
+              <p>还没注册？<el-link
+                  style="color:white"
+                  type="success"
+                  @click="goRegister"
+                >点击这里 </el-link>
+              </p>
+            </div>
+
           </el-form-item>
         </el-form>
       </div>
     </el-main>
     <el-footer>
       <p style="text-align: center">
-        服务热线：15074850577<br />
+        服务热线：12345678912<br />
         Email：1912504939@qq.com<br />
       </p>
     </el-footer>
@@ -80,7 +89,9 @@ export default defineComponent({
         { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
       ],
     })
-
+    const goRegister = () => {
+      router.push('/register')
+    }
     const goLogin = async () => {
       await formRef.value.validate(async (valid: any) => {
         let loadingInstance = ElLoading.service({
@@ -109,7 +120,6 @@ export default defineComponent({
       formState,
       loginRules,
       goLogin,
-      router,
     }
   },
 })

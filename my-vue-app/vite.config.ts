@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    vueJsx(),
+  ],
   base: "./",//打包路径
   resolve: {
     alias: {
@@ -17,7 +21,7 @@ export default defineConfig({
       '/api': 'http://localhost:3000'//代理网址
     },
     cors: true
-  }
+  },
 
 
 })
