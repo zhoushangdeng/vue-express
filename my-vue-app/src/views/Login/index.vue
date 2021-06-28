@@ -1,7 +1,7 @@
 <template>
   <el-container class="login">
     <el-header>
-      <h2 style="text-align: center">dengruo</h2>
+      <h2 style="text-align: center">zsd-vue-node-demo</h2>
     </el-header>
     <el-main>
       <div style="height: 400px; width: 400px; margin: 0px auto">
@@ -102,7 +102,6 @@ export default defineComponent({
           if (valid) {
             const { code, data } = await login(formState)
             if (code == 200) {
-              //ElMessage.success('登录成功！')
               setToken(data.token, data.id)
               router.push('/Home')
             } else {

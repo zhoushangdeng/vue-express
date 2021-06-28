@@ -52,7 +52,6 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent, reactive, computed, onMounted } from 'vue'
-import logins from '@/views/Login'
 import * as echarts from 'echarts'
 
 export default defineComponent({
@@ -165,7 +164,6 @@ export default defineComponent({
     })
     return {
       tableData,
-      logins,
     }
   },
 })

@@ -11,9 +11,18 @@ const routes: Array<RouteRecordRaw> = [
       title: "首页",
       keepAlive: true
     },
-
     component: () => import("@/layout/index.vue"),
-    children: []
+    children: [
+      {
+        path: "/Home",
+        name: "Home",
+        meta: {
+          title: "首页",
+          keepAlive: true
+        },
+        component: () => import("@/views/Home/index.vue"),
+      },
+    ]
   },
   {
     path: "/login",
@@ -58,6 +67,7 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
       if (to.matched.length === 0) {
         const Menus: [] = await store.dispatch('asyncGetmenus', '获取路由表');
         Menus.map((item: any, index: number) => {
+          console.log('')
           if (item.path == to.path && index < Menus.length - 1) {
             /* 给Layout页面添加子级路由 */
             router.addRoute('Layout', Menus[index]);
@@ -83,7 +93,6 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
           if (item.path === to.path) {
             store.dispatch('addKeepAlive', item)
           }
-
         })
       }
       store.commit('getUserInfo', getToken().id);/* 如果userID不存在则注册路由，并改变vuex里的userID。防止因为刷新丢失路由问题 */

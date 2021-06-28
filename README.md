@@ -7,7 +7,9 @@
 # 前端: Vue3 + vite + TypeScripe + element plus
 # 后端： Express + MySql + redis
 
-# 安装依赖：npm i
+# 前端启动，安装依赖：npm i，启动项目： npm run dev
+
+# 后端启动，安装依赖：npm i
 
 # 启动项目： node index.js
 

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <div data-tname="WaveItem">
+    <!-- <div data-tname="WaveItem">
       <div class="main-container">
         <div class="waves">
           <div
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -35,7 +35,7 @@ export default {
   name: 'App',
   data () {
     return {
-      waves: [],
+     /*  waves: [],
       wavesConfig: {
         maxSize: 100, // px，波纹最大尺寸
         minSize: 50, // px，波纹最小尺寸
@@ -46,17 +46,17 @@ export default {
       clear: {
         delay: 5000,
         timeoutId: null,
-      },
+      }, */
     }
   },
   mounted () {
-    document.getElementById('app').onclick = (e) => {
+    /* document.getElementById('app').onclick = (e) => {
       this.createWave(e)
       this.intervalClearWave()
-    }
+    } */
   },
   methods: {
-    createWave (e) {
+    /* createWave (e) {
       // 让新生成的波纹始终在之前波纹的上层产生叠加效果
       if (this.wavesConfig.zIndexCount > 99999) {
         this.wavesConfig.zIndexCount = 999
@@ -82,7 +82,7 @@ export default {
       this.clear.timeoutId = setTimeout(() => {
         this.waves = []
       }, this.clear.delay)
-    },
+    }, */
   },
 }
 </script>
@@ -99,9 +99,9 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  cursor: pointer;
+/*   cursor: pointer; */
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -141,5 +141,5 @@ body {
 }
 #nprogress .bar {
   background: #728ebc !important;
-}
+} */
 </style>

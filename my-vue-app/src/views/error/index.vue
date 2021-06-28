@@ -1,9 +1,15 @@
 <template>
   <div class="error">
-    <div><img src="~@/assets/404.png" alt=""></div>
-    <el-button icon="el-icon-refresh-left" type="text" @click="clickRoute('Home')">点击返回首页</el-button>
+    <div><img
+        src="~@/assets/404.png"
+        alt=""
+      ></div>
+    <el-button
+      icon="el-icon-refresh-left"
+      type="text"
+      @click="clickRoute('Home')"
+    >点击返回首页</el-button>
   </div>
-
 </template>
 <script lang="ts" >
 import { useRouter } from 'vue-router'

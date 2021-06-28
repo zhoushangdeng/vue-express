@@ -6,7 +6,6 @@
         :default-active="defaultActive"
         class="el-menu-vertical-demo"
         @open="handleOpen"
-        @close="handleClose"
         background-color="#2e3035"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -15,23 +14,22 @@
         style="height: calc(100vh - 40px)"
       >
         <el-submenu
-          v-for="(item1, index1) in menusTree"
-          :key="index1"
-          :index="item1.indexNum"
+          v-for="item1 in state.menusTree"
+          :key="item1.id"
+          :index="item1.id"
         >
           <template #title>
             <i :class="item1.icon"></i>
-            <span>{{ item1.name || '123' }}</span>
+            <span>{{ item1.title || '' }}</span>
           </template>
-
           <el-menu-item-group>
             <el-menu-item
-              :index="item2.indexNum"
               @click="clickRoute(item2, item2.index)"
-              v-for="(item2, index2) in item1.children"
-              :key="index2"
+              v-for="(item2) in item1.children"
+              :key="item2.id"
+              :index="item2.id"
             >
-              <i :class="item2.icon"></i>{{ item2.name }}
+              <i :class="item2.icon"></i>{{ item2.title }}
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -48,19 +46,33 @@
 </template>
 
 <script lang="ts" >
-import { defineComponent, ref, onBeforeMount, computed } from 'vue'
+import { defineComponent, ref, onBeforeMount, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { getInfo } from '@/api/user/index'
+import { getToken } from '@/util/auth'
 export default defineComponent({
+  name: 'Menu',
+  components: {},
   setup() {
+    const state = reactive({ menusTree: [], tableData: [] })
     const store = useStore()
     const isCollapse = ref(false)
     const defaultActive = ref('1')
     const handleOpen = (index: any) => {}
-    const handleClose = (key: any, keyPath: any) => {}
 
     const router = useRouter()
-    const clickRoute = (item: any, defaultActiveIndex: string) => {
+    const clickRoute = (item: any) => {
+      item = {
+        path: '/' + item.menusName,
+        name: item.title,
+        meta: {
+          title: item.title,
+          keepAlive: true,
+        },
+        component: item.path,
+        id: item.id,
+      }
       const existence = store.state.userInfo.cachedMenu.filter(
         (item2: any) => item.name === item2.name
       )
@@ -68,17 +80,20 @@ export default defineComponent({
         store.dispatch('addKeepAlive', item)
       }
       store.dispatch('asyncClickRoute', item)
+      store.dispatch('asyncgetdefaultActive', item.id)
       router.push(item.path)
     }
 
-    const menusTree = store.state.userInfo.menusTree
-
+    const getInfos = async () => {
+      const data = await getInfo({ token: getToken() })
+      state.menusTree = data
+    }
+    getInfos()
     return {
       isCollapse,
       handleOpen,
-      handleClose,
       clickRoute,
-      menusTree,
+      state,
       defaultActive: computed(() => store.state.userInfo.defaultActive),
     }
   },

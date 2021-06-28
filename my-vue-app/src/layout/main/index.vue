@@ -1,11 +1,13 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <transition name="el-zoom-in-top">
-      <router-view v-slot="{ Component }">
-        <keep-alive>
+
+    <router-view v-slot="{ Component }">
+      <keep-alive :max="10">
+        <transition name="el-zoom-in-top">
           <component :is="Component" />
-        </keep-alive>
-      </router-view>
-    </transition>
+        </transition>
+      </keep-alive>
+    </router-view>
+
   </div>
 </template>

@@ -1,21 +1,18 @@
 
 const db = require('./redis')
 const publicFunc = {
-
-    async tokenMatching(req, res, callback) {
-
-        const token = req.headers.authorization;
-        const userID = req.headers.id;
+    async tokenMatching (req, res, next) {
+        const token = req.headers.authorization || '';
+        const userID = req.headers.id || 0;
 
         if (token === await db.getToken(userID)) {
-
-            callback({
+            const data = {
                 token: token,
                 userID: userID
-            });
-
+            }
+            next()
+            return data;
         } else {
-
             res.json({
                 'success': false,
                 'code': 1,
@@ -23,11 +20,8 @@ const publicFunc = {
             });
             res.end();
             return;
-
         }
-
     }
-
 }
 
 module.exports = publicFunc;

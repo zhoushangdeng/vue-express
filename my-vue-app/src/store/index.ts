@@ -1,24 +1,21 @@
 import { createStore } from 'vuex'
 import { getNavList } from '@/api/user/index'
-import getMenusArr from '@/router/menusArr'
+import { getInfo } from '@/api/user/index'
 const store = createStore({
     state: {
         userInfo: {
             userID: '',
             userName: 'deng',
-            Menus: [],
-            menusTree: [],
             cachedMenu: [
                 {
-                    path: '/Home',
-                    name: '首页',
+                    path: "/Home",
+                    name: "首页",
                     meta: {
-                        title: '首页',
-                        keepAlive: true,
+                        title: "首页",
+                        keepAlive: true
                     },
-                    component: () => import("../views/Home/index.vue"),
-                    children: [],
-                    indexNum: '1'
+                    component: () => import("@/views/Home/index.vue"),
+                    id: "1",
                 },
             ],
             clickRoute: {},/* 当前点击的路由 */
@@ -29,17 +26,22 @@ const store = createStore({
         getUserInfo(state, userID) {
             state.userInfo.userID = userID
         },
-        getUserMenus(state, meuns) {
-            state.userInfo.Menus = meuns
-        },
-        getMenusTree(state, menusTree) {
-            state.userInfo.menusTree = menusTree
-        },
         getKeepAliveItem(state, val: any) {
             state.userInfo.cachedMenu.push(val);
+            console.log('state.userInfo.cachedMenu', state.userInfo.cachedMenu)
         },
         getclickRoute(state, val) {
-            state.userInfo.clickRoute = val;
+            state.userInfo.clickRoute = {
+                path: '/' + val.menusName,
+                name: val.title,
+                meta: {
+                    title: val.title,
+                    keepAlive: true,
+                },
+                icon: val.icon,
+                component: val.path,
+                id: val.id
+            };
         },
         getdefaultActive(state, val) {
             state.userInfo.defaultActive = val;
@@ -52,35 +54,29 @@ const store = createStore({
         async asyncClickRoute({ commit }, val) {
             commit("getclickRoute", val)
         },
-        asyncGetUserInfo({ commit }, val) {
-            commit("getUserInfo", val)
-        },
         async asyncGetmenus({ commit }, val) {
-
-            const { data } = await getNavList({
-                data: ''
-            });/*模拟 获取后端返回的路由表 */
-            const menusArr = getMenusArr;
-            const meuns: any = []
-            const arrs = (val: any) => {
-                val.map((item: any, index: any) => {
-                    meuns.push({
-                        path: item.path,
-                        name: item.name,
-                        meta: item.meta,
-                        component: item.component,
-                        indexNum: item.indexNum
-                    })
-                    if (item.children.length > 0) {
-                        arrs(item.children)
-                    }
+            const data = await getInfo({ type: '1' });
+            /*模拟 获取后端返回的路由表 */
+            const modules = import.meta.glob('/*/views/**/**.vue')
+            const components = {}
+            Object.keys(modules).forEach((key) => {
+                components[key] = modules[key]
+            })
+            const menusArr = [];
+            data.map(item => {
+                menusArr.push({
+                    path: '/' + item.menusName,
+                    name: item.title,
+                    meta: {
+                        title: item.title,
+                        keepAlive: true,
+                    },
+                    icon: item.icon,
+                    component: components[item.path],
+                    id: item.id
                 })
-                return meuns
-            }
-            await arrs(menusArr)
-            commit("getMenusTree", menusArr)
-            commit("getUserMenus", meuns);
-            return meuns
+            })
+            return menusArr
         },
         async addKeepAlive({ commit }, val) {
             commit("getKeepAliveItem", val)

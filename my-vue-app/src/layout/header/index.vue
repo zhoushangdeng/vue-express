@@ -36,18 +36,18 @@
     </div>
     <div>
       <el-tabs
-        v-model="$route.name"
+        v-model="$route.path"
         type="card"
         closable
-        @tab-remove="(targetName) => removeTab(targetName, $route.name)"
+        @tab-remove="(targetName) => removeTab(targetName, $route.path)"
         @tab-click="tabClick"
         size="mini"
       >
         <el-tab-pane
-          v-for="(item, index) in cachedMenu"
-          :key="index"
+          v-for="(item) in cachedMenu"
+          :key="item.id"
           :label="item.name"
-          :name="item.name"
+          :name="item.path"
         >
         </el-tab-pane>
       </el-tabs>
@@ -72,7 +72,7 @@ export default defineComponent({
 
     const removeTab = (targetName: any, routeName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
-        if (item.name === targetName && targetName !== '首页') {
+        if (item.path === targetName && targetName !== '/Home') {
           store.state.userInfo.cachedMenu.splice(index, 1)
           if (targetName === routeName) {
             router.push(store.state.userInfo.cachedMenu[index - 1].path)
@@ -83,8 +83,9 @@ export default defineComponent({
     const matchedArr = reactive([])
     const tabClick = (targetName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
-        if (item.name == targetName.props.name) {
-          store.dispatch('asyncgetdefaultActive', item.indexNum)
+        if (item.path == targetName.props.name) {
+          console.log('item.id',item.id)
+          store.dispatch('asyncgetdefaultActive', item.id)
           router.push(item.path)
         }
       })

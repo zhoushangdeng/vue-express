@@ -2,124 +2,148 @@
 const query = require('../public/mysqlPool')
 const express = require('express');
 const app = express.Router();
-const session = require("express-session");
-const bodyParser = require('body-parser');
-const aes = require('../public/aes')
-const db = require('../public/redis')
-const publicFunc = require('../public/publicFun')
-const tokenMatching = publicFunc.tokenMatching
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(session({
-    // 可以随便写。 一个 String 类型的字符串，作为服务器端生成 session 的签名
-    secret: 'keyboard cat',
-    //强制保存 session 即使它并没有变化,。默认为 true
-    resave: true,
-    //过期时间
-    cookie: { maxAge: 90000 }, //单位为妙
-    //强制将未初始化的 session 存储。  默认值是true  建议设置成true
-    saveUninitialized: true
-}))
-
-/* 首页菜单 */
-app.get('/getNavList', (req, res) => {
-    tokenMatching(req, res, (data) => {
-
-        console.log('req.query', req.query);
 
 
-        const menusArr = [
-            /* 模拟后端返回路由表 */
-
-            {
-                path: '/test',
-                name: 'test',
-                meta: {
-                    title: '测试',
-                    keepAlive: true,
-                },
-                indexNum: '4',
-                component: "../views/testTree/index.vue",
-                children: [
-                    {
-                        path: '/test/test1',
-                        name: 'test1',
-                        meta: {
-                            title: '测试1',
-                            keepAlive: true,
-                        },
-                        component: '../views/testTree/test1/index.vue',
-                        children: [
-
-                        ],
-                        indexNum: '4'
-                    },
-                    {
-                        path: '/test/test2',
-                        name: 'test2',
-                        meta: {
-                            title: '测试2',
-                            keepAlive: true
-                        },
-                        component: "../views/testTree/test2/index.vue",
-                        children: [
-
-                        ],
-                        indexNum: '5'
+app.get('/getInfo', async (req, res) => {
+    const { type } = req.query;
+    let sql = `select * from menus;`
+    const data = await query(sql)
+    const menus = []
+    try {
+        if (type === '1') {/* type 为 '1'时返回menus表里的数据，其他值则返回处理过的树形 */
+            res.json(data)
+            res.end()
+            return
+        }
+        data.map(item => {
+            if (item.parentID === 0) {
+                menus.push({ ...item, children: [] });
+            }
+        })
+        const filters = (menusArr) => {
+            menusArr.map(item => {
+                data.map(item2 => {
+                    if (item2.parentID === item.id) {
+                        item.children.push({ ...item2, children: [] });
                     }
-                ],
-            },
-            {
-                path: '/',
-                name: '用户管理',
-                meta: {
-                    title: '用户管理',
-                    keepAlive: true,
-                },
-                component: "../Layout/index.vue",
-                indexNum: '1',
-                children: [
-                    {
-                        path: '/Home',
-                        name: '首页',
-                        meta: {
-                            title: '首页',
-                            keepAlive: true,
-                        },
-                        component: "../views/Home/index.vue",
-                        children: [
-
-                        ],
-                        indexNum: '1'
-                    },
-                    {
-                        path: '/menus',
-                        name: '菜单管理',
-                        meta: {
-                            title: '菜单管理',
-                            keepAlive: true,
-                        },
-                        component: "../views/Menus/index.vue",
-                        children: [
-
-                        ]
-                        , indexNum: '3'
-                    }
-                ]
-            },
-        ]
+                })
+                if (item.children.length > 0) {
+                    filters(item.children)
+                }
+            })
+        }
+        filters(menus)
+        res.json(menus)
+        res.end()
+    } catch (error) {
         res.json({
-            code: 200,
-            data: menusArr,
-            msg: 'success'
+            code: 500,
+            data: '服务器出错了!',
+            msg: error
         });
         res.end();
         return;
-
-    })
+    }
 })
 
+app.post('/insertMenus', async (req, res) => {
+    try {
+        const { title, menusName, path, icon, parentID, type } = req.body;
+        let sql = `select * from menus where menusName = '${menusName}' or path = '${path}'`;
+        const val = await query(sql);
+        if (val.length > 0) {
+            res.json({
+                code: 200,
+                data: [],
+                msg: '菜单路径重复或者菜单唯一名称标识符menusName重复！'
+            });
+            res.end()
+            return
+        }
+
+        sql = `insert into menus (title,menusName,path,icon,parentID,type) values('${title}','${menusName}','${path}','${icon}',${parentID},${type})`
+        const data = await query(sql)
+        if (data.affectedRows === 1) {
+            res.json({
+                code: 200,
+                data: '新增成功',
+                msg: 'success'
+            });
+        } else {
+            res.json(data);
+        }
+        res.end();
+    } catch (error) {
+        res.json({
+            code: 500,
+            data: '更新失败',
+            msg: error
+        });
+        res.end();
+        return;
+    }
+})
+// 删除
+app.post('/delMenus', async (req, res) => {
+    try {
+        const { id } = req.body
+        let sql = `delete from menus where id=${id}`
+        const data = await query(sql)
+        if (data.affectedRows === 1) {
+            res.json({
+                code: 200,
+                data: '删除成功',
+                msg: 'success'
+            });
+        } else {
+            res.json({
+                code: 201,
+                data: data,
+                msg: '删除失败，数据不存在或者数据库错误'
+            });
+        }
+        res.end();
+
+    } catch (error) {
+        res.json({
+            code: 500,
+            data: '服务器出错了!',
+            msg: error
+        });
+        res.end();
+        return;
+    }
+})
+// 修改
+app.post('/updateMenus', async (req, res) => {
+    try {
+        const { id, title, menusName, path, icon, parentID, type } = req.body;
+        let sql = `update menus set title='${title}',menusName='${menusName}',path='${path}',icon='${icon}',parentID=${parentID},type=${type} where id=${id}`
+        const data = await query(sql)
+        if (data.affectedRows === 1) {
+            res.json({
+                code: 200,
+                data: '修改成功',
+                msg: 'success'
+            });
+        } else {
+            res.json({
+                code: 201,
+                data: '修改失败',
+                msg: data
+            });
+        }
+        res.end();
+    } catch (error) {
+        res.json({
+            code: 500,
+            data: '服务器出错了!',
+            msg: error
+        });
+        res.end();
+        return;
+    }
+})
 
 
 
