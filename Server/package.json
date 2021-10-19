@@ -6,5 +6,12 @@
     "mysql": "^2.18.1",
     "redis": "^3.0.2"
   },
-  "main":"./index.js"
+  "scripts": {
+    "dev": "./node_modules/.bin/nodemon /index",
+    "test": "jest"
+  },
+  "main": "./index.js",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }

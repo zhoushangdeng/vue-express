@@ -1,2 +1,9 @@
 */node_modules/*
 */dist/*
+package-lock.json
+npm-debug.log
+secret
+logs
+Server.zip
+.DS_Store
+.env
