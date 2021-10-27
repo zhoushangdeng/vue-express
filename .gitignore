@@ -5,5 +5,5 @@ npm-debug.log
 secret
 logs
 Server.zip
-.DS_Store
+*/.DS_Store
 .env
