@@ -10,10 +10,7 @@ const store = createStore({
                 {
                     path: "/Home",
                     name: "首页",
-                    meta: {
-                        title: "首页",
-                        keepAlive: true
-                    },
+                    meta: { title: "首页", keepAlive: true },
                     component: () => import("@/views/Home/index.vue"),
                     id: "1",
                 },
@@ -28,16 +25,12 @@ const store = createStore({
         },
         getKeepAliveItem(state, val: any) {
             state.userInfo.cachedMenu.push(val);
-            console.log('state.userInfo.cachedMenu', state.userInfo.cachedMenu)
         },
         getclickRoute(state, val) {
             state.userInfo.clickRoute = {
                 path: '/' + val.menusName,
                 name: val.title,
-                meta: {
-                    title: val.title,
-                    keepAlive: true,
-                },
+                meta: { title: val.title, keepAlive: true },
                 icon: val.icon,
                 component: val.path,
                 id: val.id
@@ -58,21 +51,14 @@ const store = createStore({
             const data = await getInfo({ type: '1' });
             /*模拟 获取后端返回的路由表 */
             const modules = import.meta.glob('/*/views/**/**.vue')
-            const components = {}
-            Object.keys(modules).forEach((key) => {
-                components[key] = modules[key]
-            })
-            const menusArr = [];
-            data.map(item => {
+            const menusArr: any = [];
+            data.map((item: any) => {
                 menusArr.push({
-                    path: '/' + item.menusName,
-                    name: item.title,
-                    meta: {
-                        title: item.title,
-                        keepAlive: true,
-                    },
+                    path: `/${item.menusName}`,
+                    name: `${item.title}`,
+                    meta: { title: item.title, keepAlive: true },
                     icon: item.icon,
-                    component: components[item.path],
+                    component: modules[`/src/views/system/${item.path}/index.vue`],
                     id: item.id
                 })
             })

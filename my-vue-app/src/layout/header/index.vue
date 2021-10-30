@@ -2,36 +2,25 @@
   <div>
     <div class="nav">
       <div class="item1">
-        <el-breadcrumb
-          separator="/"
-          style="margin-top: 3px"
-        >
+        <el-breadcrumb separator="/" style="margin-top: 3px">
           <el-breadcrumb-item
             v-for="(item, index) in matchedArr"
             :key="index"
-          >{{ item }}</el-breadcrumb-item>
+            >{{ item }}</el-breadcrumb-item
+          >
         </el-breadcrumb>
       </div>
       <div class="item2">
-        <el-popover
-          placement="bottom"
-          trigger="click"
-          :width="90"
-        >
+        <el-popover placement="bottom" trigger="click" :width="90">
           <template #reference>
-            <el-button type="text">{{userName}}</el-button>
+            <el-button type="text">{{ userName }}</el-button>
           </template>
-          <div style="display: flex;justify-content: center;">
-            <el-button
-              type="primary"
-              @click="signOut"
-              size="small"
-            >
+          <div style="display: flex; justify-content: center">
+            <el-button type="primary" @click="signOut" size="small">
               退出登录
             </el-button>
           </div>
         </el-popover>
-
       </div>
     </div>
     <div>
@@ -44,7 +33,7 @@
         size="mini"
       >
         <el-tab-pane
-          v-for="(item) in cachedMenu"
+          v-for="item in cachedMenu"
           :key="item.id"
           :label="item.name"
           :name="item.path"
@@ -65,12 +54,13 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const userName: string = store.state.userInfo.userName
-    const { ctx } = getCurrentInstance()
-    const clickRoute = (val: string) => {
-      router.push(val)
+    interface obj {
+      ctx: any
     }
+    const { ctx }: obj = getCurrentInstance()
+    const clickRoute = (val: string) => router.push(val)
 
-    const removeTab = (targetName: any, routeName: any) => {
+    const removeTab = (targetName: string, routeName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
         if (item.path === targetName && targetName !== '/Home') {
           store.state.userInfo.cachedMenu.splice(index, 1)
@@ -82,9 +72,8 @@ export default defineComponent({
     }
     const matchedArr = reactive([])
     const tabClick = (targetName: any) => {
-      store.state.userInfo.cachedMenu.map((item, index) => {
+      store.state.userInfo.cachedMenu.map((item) => {
         if (item.path == targetName.props.name) {
-          console.log('item.id',item.id)
           store.dispatch('asyncgetdefaultActive', item.id)
           router.push(item.path)
         }
@@ -94,7 +83,6 @@ export default defineComponent({
       removeToken()
       router.push('/login')
     }
-
     return {
       signOut,
       cachedMenu: computed(() => store.state.userInfo.cachedMenu),
@@ -105,16 +93,12 @@ export default defineComponent({
       matchedArr: computed(() => {
         let temp = []
         let temps = []
-        ctx.$router.currentRoute.value.matched.filter((item, index, self) => {
-          if (item.meta.title) {
-            const title = item.meta.title
-            temp.push(title)
-          }
+        ctx.$router.currentRoute.value.matched.filter((item) => {
+          const title = item.meta.title
+          if (title) temp.push(title)
         })
-        temp.filter((item, index, self) => {
-          if (!temps.includes(item)) {
-            temps.push(item)
-          }
+        temp.filter((item) => {
+          if (!temps.includes(item)) temps.push(item)
         })
         return temps
       }),

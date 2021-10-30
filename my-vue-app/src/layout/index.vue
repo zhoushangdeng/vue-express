@@ -28,14 +28,12 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const clickRoute = (val: string) => {
-      router.push(val)
-    }
+    const clickRoute = (val: string) => router.push(val)
 
-    const handleOpen = (key: any, keyPath: any) => {
+    const handleOpen = (key: string, keyPath: string) => {
       console.log(key, keyPath)
     }
-    const handleClose = (key: any, keyPath: any) => {
+    const handleClose = (key: string, keyPath: string) => {
       console.log(key, keyPath)
     }
     return {

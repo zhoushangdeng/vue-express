@@ -67,7 +67,6 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
       if (to.matched.length === 0) {
         const Menus: [] = await store.dispatch('asyncGetmenus', '获取路由表');
         Menus.map((item: any, index: number) => {
-          console.log('')
           if (item.path == to.path && index < Menus.length - 1) {
             /* 给Layout页面添加子级路由 */
             router.addRoute('Layout', Menus[index]);
@@ -77,9 +76,7 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
             if (item.path == to.path) {
               router.addRoute('Layout', Menus[index]);
               next({ ...to, replace: true })
-            } else {
-              next('404')
-            }
+            } else { next('404') }
           }
         })
       } else {
@@ -105,15 +102,6 @@ router.beforeEach(async (to, from, next) => {/* 路由守卫 */
   } else {
     next('/login')
   }
-  /* else if (to.path == '/login') {
-    next()
-  } else if (to.path == '/register') {
-    console.log(to.path)
-    next()
-  } else {
-    next('/login')
-  } */
-  //to.path == '/login' ? next() : next('/login')/* token不存在则中断导航，重新加载进入login页面 */
   NProgress.done()
 })
 export default router;

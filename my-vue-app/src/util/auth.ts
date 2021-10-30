@@ -1,19 +1,13 @@
 import VueCookies from 'vue-cookies'
 
 const TokenKey: string = 'Token'
-let id: string = 'id'
+const userID: string = 'id'
 export function getToken() {
-    return VueCookies.get(TokenKey) || {
-        token: '',
-        id: ''
-    };
+    return VueCookies.get(TokenKey) || { token: '', id: '' };
 }
 
 export function setToken(token: string, id: number) {
-    return VueCookies.set(TokenKey, {
-        token: token,
-        id: id
-    }, '28800s');
+    return VueCookies.set(TokenKey, { token: token, id: userID }, '28800s');
 }
 
 export function removeToken() {
