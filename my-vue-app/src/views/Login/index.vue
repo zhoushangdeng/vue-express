@@ -12,19 +12,13 @@
           :rules="loginRules"
           :model="formState"
         >
-          <el-form-item
-            label="邮箱"
-            prop="email"
-          >
+          <el-form-item label="邮箱" prop="email">
             <el-input
               v-model.trim="formState.email"
               placeholder="请输入用户名/邮箱"
             ></el-input>
           </el-form-item>
-          <el-form-item
-            label="密码"
-            prop="password"
-          >
+          <el-form-item label="密码" prop="password">
             <el-input
               v-model.trim="formState.password"
               type="password"
@@ -34,24 +28,25 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-
             <div style="display: flex; justify-content: center">
               <el-button
                 @click="goLogin"
                 type="success"
                 round
                 @keyup.enter="goLogin"
-              >登录</el-button>
+                >登录</el-button
+              >
             </div>
             <div style="display: flex; justify-content: flex-end">
-              <p>还没注册？<el-link
-                  style="color:white"
+              <p>
+                还没注册？<el-link
+                  style="color: white"
                   type="success"
                   @click="goRegister"
-                >点击这里 </el-link>
+                  >点击这里
+                </el-link>
               </p>
             </div>
-
           </el-form-item>
         </el-form>
       </div>

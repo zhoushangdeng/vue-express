@@ -36,11 +36,7 @@ app.get('/getInfo', async (req, res) => {
         res.json(menus)
         res.end()
     } catch (error) {
-        res.json({
-            code: 500,
-            data: '服务器出错了!',
-            msg: error
-        });
+        res.json({ code: 500, data: '服务器出错了!', msg: error });
         res.end();
         return;
     }
@@ -52,11 +48,7 @@ app.post('/insertMenus', async (req, res) => {
         let sql = `select * from menus where menusName = '${menusName}' or path = '${path}'`;
         const val = await query(sql);
         if (val.length > 0) {
-            res.json({
-                code: 200,
-                data: [],
-                msg: '菜单路径重复或者菜单唯一名称标识符menusName重复！'
-            });
+            res.json({ code: 200, data: [], msg: '菜单路径重复或者菜单唯一名称标识符menusName重复！' });
             res.end()
             return
         }
@@ -64,21 +56,13 @@ app.post('/insertMenus', async (req, res) => {
         sql = `insert into menus (title,menusName,path,icon,parentID,type) values('${title}','${menusName}','${path}','${icon}',${parentID},${type})`
         const data = await query(sql)
         if (data.affectedRows === 1) {
-            res.json({
-                code: 200,
-                data: '新增成功',
-                msg: 'success'
-            });
+            res.json({ code: 200, data: '新增成功', msg: 'success' });
         } else {
             res.json(data);
         }
         res.end();
     } catch (error) {
-        res.json({
-            code: 500,
-            data: '更新失败',
-            msg: error
-        });
+        res.json({ code: 500, data: '更新失败', msg: error });
         res.end();
         return;
     }
@@ -90,26 +74,14 @@ app.post('/delMenus', async (req, res) => {
         let sql = `delete from menus where id=${id}`
         const data = await query(sql)
         if (data.affectedRows === 1) {
-            res.json({
-                code: 200,
-                data: '删除成功',
-                msg: 'success'
-            });
+            res.json({ code: 200, data: '删除成功', msg: 'success' });
         } else {
-            res.json({
-                code: 201,
-                data: data,
-                msg: '删除失败，数据不存在或者数据库错误'
-            });
+            res.json({ code: 201, data: data, msg: '删除失败，数据不存在或者数据库错误' });
         }
         res.end();
 
     } catch (error) {
-        res.json({
-            code: 500,
-            data: '服务器出错了!',
-            msg: error
-        });
+        res.json({ code: 500, data: '服务器出错了!', msg: error });
         res.end();
         return;
     }
@@ -121,30 +93,16 @@ app.post('/updateMenus', async (req, res) => {
         let sql = `update menus set title='${title}',menusName='${menusName}',path='${path}',icon='${icon}',parentID=${parentID},type=${type} where id=${id}`
         const data = await query(sql)
         if (data.affectedRows === 1) {
-            res.json({
-                code: 200,
-                data: '修改成功',
-                msg: 'success'
-            });
+            res.json({ code: 200, data: '修改成功', msg: 'success' });
         } else {
-            res.json({
-                code: 201,
-                data: '修改失败',
-                msg: data
-            });
+            res.json({ code: 201, data: '修改失败', msg: data });
         }
         res.end();
     } catch (error) {
-        res.json({
-            code: 500,
-            data: '服务器出错了!',
-            msg: error
-        });
+        res.json({ code: 500, data: '服务器出错了!', msg: error });
         res.end();
         return;
     }
 })
-
-
 
 module.exports = app;

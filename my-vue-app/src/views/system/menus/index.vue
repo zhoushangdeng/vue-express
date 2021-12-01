@@ -12,17 +12,8 @@
         size="mini"
         height="calc(100vh - 180px)"
       >
-        <el-table-column
-          prop="title"
-          label="菜单标题"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="id"
-          label="菜单ID"
-          width="100"
-          align="center"
-        >
+        <el-table-column prop="title" label="菜单标题"> </el-table-column>
+        <el-table-column prop="id" label="菜单ID" width="100" align="center">
         </el-table-column>
         <el-table-column
           prop="parentID"
@@ -37,31 +28,13 @@
           width="100"
         >
           <template #default="{ row }">
-            {{row.type === 1?'前台':'后台'}}
+            {{ row.type === 1 ? '前台' : '后台' }}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="menusName"
-          label="menusName"
-        >
-
-        </el-table-column>
-        <el-table-column
-          prop="path"
-          label="菜单Path"
-        >
-
-        </el-table-column>
-        <el-table-column
-          prop="icon"
-          label="icon"
-        >
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center"
-          width="180"
-        >
+        <el-table-column prop="menusName" label="menusName"> </el-table-column>
+        <el-table-column prop="path" label="菜单Path"> </el-table-column>
+        <el-table-column prop="icon" label="icon"> </el-table-column>
+        <el-table-column label="操作" align="center" width="180">
           <template #default="{ row, $index }">
             <div>
               <el-button
@@ -74,7 +47,7 @@
                 type="info"
                 icon="el-icon-edit"
                 size="mini"
-                @click="edit(row,$index)"
+                @click="edit(row, $index)"
               ></el-button>
               <el-popconfirm
                 confirmButtonText="确定"
@@ -102,11 +75,7 @@
         width="40%"
         :before-close="handleClose"
       >
-        <el-form
-          ref="form"
-          :model="state.form"
-          label-width="110px"
-        >
+        <el-form ref="form" :model="state.form" label-width="110px">
           <el-form-item label="菜单标题">
             <el-input v-model="state.from.title"></el-input>
           </el-form-item>
@@ -120,18 +89,9 @@
             <el-input v-model="state.from.icon"></el-input>
           </el-form-item>
           <el-form-item label="菜单类型">
-            <el-select
-              v-model="state.from.type"
-              placeholder="请选择"
-            >
-              <el-option
-                label="前台"
-                :value="1"
-              />
-              <el-option
-                label="后台"
-                :value="2"
-              />
+            <el-select v-model="state.from.type" placeholder="请选择">
+              <el-option label="前台" :value="1" />
+              <el-option label="后台" :value="2" />
             </el-select>
           </el-form-item>
         </el-form>
@@ -140,17 +100,15 @@
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button
               type="primary"
-              @click="state.status === '修改'?updateMenu():insertMenu()"
-            >确 定</el-button>
+              @click="state.status === '修改' ? updateMenu() : insertMenu()"
+              >确 定</el-button
+            >
           </span>
         </template>
       </el-dialog>
     </el-main>
     <el-footer>
-      <el-form
-        :inline="true"
-        class="demo-form-inline"
-      >
+      <el-form :inline="true" class="demo-form-inline">
         <!--         <el-form-item>
           <el-input
             size="mini"
@@ -165,7 +123,8 @@
             size="mini"
             @click="addMenus(0)"
             plain
-          >新增</el-button>
+            >新增</el-button
+          >
         </el-form-item>
       </el-form>
     </el-footer>

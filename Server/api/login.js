@@ -16,32 +16,16 @@ app.post('/userLogin', async (req, res) => {
             var timestamp = Date.parse(new Date());
             let token = timestamp + data[0].id + timestamp
             let userID = data[0].id;
-            obj = {
-                code: 200,
-                data: {
-                    id: userID,
-                    token: token
-                },
-                msg: 'success'
-            }
-            /* token写进redis */
+            obj = { code: 200, data: { id: userID, token: token }, msg: 'success' }
             db.setToken(userID, token);
         } else {
-            obj = {
-                code: 401,
-                data: '用户名或密码无效!',
-                msg: data
-            }
+            obj = { code: 401, data: '用户名或密码无效!', msg: data }
         }
         res.json(obj);
         res.end();
         return;
     } catch (error) {
-        res.json({
-            code: 500,
-            data: '服务器出错了!',
-            msg: error
-        });
+        res.json({ code: 500, data: '服务器出错了!', msg: error });
         res.end();
         return;
     }
@@ -52,16 +36,10 @@ app.get('/getNavList', (req, res) => {
     console.log('data', data)
     let sql = `select * from user where id>${data.id};`
     query(sql, (error, vals) => {
-        console.log('vals', vals)
-        res.json({
-            data: vals
-        });
+        res.json({ data: vals });
         res.end();
         return;
     })
 })
-
-
-
 
 module.exports = app;

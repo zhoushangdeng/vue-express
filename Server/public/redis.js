@@ -1,5 +1,5 @@
 const redis = require('redis');
-const client = redis.createClient({port: 6379, host:'127.0.0.1',password:"foobared"});
+const client = redis.createClient({ port: 6379, host: '127.0.0.1', password: "foobared" });
 client.on("error", function (error) {
     console.error(error);
 });
@@ -11,20 +11,11 @@ const db = {
     },
     getToken(key) {
         return new Promise((resolve, reject) => {
-            client.get(key, (err, res) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(res)
-                }
-            })
+            client.get(key, (err, res) => err ? reject(err) : resolve(res))
         })
     },
-    quit() {
-        client.quit();
-    }
+    quit() { client.quit()}
 
 }
-
 
 module.exports = db;
