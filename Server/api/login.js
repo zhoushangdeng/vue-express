@@ -4,7 +4,7 @@ const express = require('express');
 const app = express.Router();
 const aes = require('../public/aes')
 const db = require('../public/redis')
-
+console.log();
 /* 登录 */
 app.post('/userLogin', async (req, res) => {
     try {
