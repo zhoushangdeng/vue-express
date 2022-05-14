@@ -7,51 +7,34 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Layout",
-    meta: {
-      title: "首页",
-      keepAlive: true
-    },
+    meta: { title: "首页", keepAlive: true },
     component: () => import("@/layout/index.vue"),
     children: [
       {
         path: "/Home",
         name: "Home",
-        meta: {
-          title: "首页",
-          keepAlive: true
-        },
+        meta: { title: "首页", keepAlive: true },
         component: () => import("@/views/Home/index.vue"),
-      },
+      }
     ]
   },
   {
     path: "/login",
     name: "Login",
-    meta: {
-      title: "登录",
-      keepAlive: true
-    },
+    meta: { title: "登录", keepAlive: true },
     component: () => import("@/views/Login/index.vue"),
   },
   {
     path: "/register",
     name: "Register",
-    meta: {
-      title: "注册",
-      keepAlive: true
-    },
+    meta: { title: "注册", keepAlive: true },
     component: () => import("@/views/register/index.vue"),
   },
   {
     path: '/404',
     name: "404",
     component: () => import('@/views/error/index.vue')
-  },
-  {
-    path: '/logins',
-    name: 'logins',
-    component: () => import('@/views/Login'),
-  },
+  }
 ];
 
 const router = createRouter({
@@ -63,7 +46,9 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {/* 路由守卫 */
   NProgress.start()
   if (getToken().token) {
+    console.log("store.state.userInfo.userID",store.state.userInfo.userID);
     if (store.state.userInfo.userID) {
+      
       if (to.matched.length === 0) {
         const Menus: [] = await store.dispatch('asyncGetmenus', '获取路由表');
         Menus.map((item: any, index: number) => {

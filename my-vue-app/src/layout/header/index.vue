@@ -3,11 +3,7 @@
     <div class="nav">
       <div class="item1">
         <el-breadcrumb separator="/" style="margin-top: 3px">
-          <el-breadcrumb-item
-            v-for="(item, index) in matchedArr"
-            :key="index"
-            >{{ item }}</el-breadcrumb-item
-          >
+          <el-breadcrumb-item v-for="(item, index) in matchedArr" :key="index">{{ item }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div class="item2">
@@ -24,20 +20,8 @@
       </div>
     </div>
     <div>
-      <el-tabs
-        v-model="$route.path"
-        type="card"
-        closable
-        @tab-remove="(targetName) => removeTab(targetName, $route.path)"
-        @tab-click="tabClick"
-        size="mini"
-      >
-        <el-tab-pane
-          v-for="item in cachedMenu"
-          :key="item.id"
-          :label="item.name"
-          :name="item.path"
-        >
+      <el-tabs v-model="$route.path" type="card" closable @tab-remove="(targetName) => removeTab(targetName, $route.path)" @tab-click="tabClick" size="mini">
+        <el-tab-pane v-for="item in cachedMenu" :key="item.id" :label="item.name" :name="item.path">
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -54,11 +38,9 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const userName: string = store.state.userInfo.userName
-    interface obj {
-      ctx: any
-    }
-    const { ctx }: obj = getCurrentInstance()
+    const { ctx }: any = getCurrentInstance()
     const clickRoute = (val: string) => router.push(val)
+    console.log('ctx.$router', ctx.$router)
 
     const removeTab = (targetName: string, routeName: any) => {
       store.state.userInfo.cachedMenu.map((item, index) => {
@@ -90,13 +72,15 @@ export default defineComponent({
       userName,
       removeTab,
       tabClick,
-      matchedArr: computed(() => {
+      matchedArr: computed(function () {
         let temp = []
         let temps = []
-        ctx.$router.currentRoute.value.matched.filter((item) => {
-          const title = item.meta.title
-          if (title) temp.push(title)
-        })
+        console.log(ctx.$router)
+
+        // ctx.$router.currentRoute.value.matched.filter((item) => {
+        //   const title = item.meta.title
+        //   if (title) temp.push(title)
+        // })
         temp.filter((item) => {
           if (!temps.includes(item)) temps.push(item)
         })

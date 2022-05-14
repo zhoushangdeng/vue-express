@@ -5,7 +5,7 @@ const store = createStore({
     state: {
         userInfo: {
             userID: '',
-            userName: 'deng',
+            userName: 'userName',
             cachedMenu: [
                 {
                     path: "/Home",
@@ -58,7 +58,7 @@ const store = createStore({
                     name: `${item.title}`,
                     meta: { title: item.title, keepAlive: true },
                     icon: item.icon,
-                    component: modules[`/src/views/system/${item.path}/index.vue`],
+                    component: modules[`/src/views/${item.path}/index.vue`],
                     id: item.id
                 })
             })

@@ -15,7 +15,6 @@ export function getInfo(params: any) {
         params
     })
 }
-
 export function insertMenus(data: any) {
     return request({
         url: '/user/insertMenus',

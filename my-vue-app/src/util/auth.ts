@@ -7,7 +7,7 @@ export function getToken() {
 }
 
 export function setToken(token: string, id: number) {
-    return VueCookies.set(TokenKey, { token: token, id: userID }, '28800s');
+    return VueCookies.set(TokenKey, { token: token, id: id }, '28800s');
 }
 
 export function removeToken() {

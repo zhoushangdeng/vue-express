@@ -1,49 +1,25 @@
 <template>
   <el-container class="login">
     <el-header>
-      <h2 style="text-align: center">zsd-vue-node-demo</h2>
+      <h2 style="text-align: center">欢迎使用</h2>
     </el-header>
     <el-main>
       <div style="height: 400px; width: 400px; margin: 0px auto">
-        <el-form
-          label-position="top"
-          style="margin-top: 5em"
-          ref="formRef"
-          :rules="loginRules"
-          :model="formState"
-        >
-          <el-form-item label="邮箱" prop="email">
-            <el-input
-              v-model.trim="formState.email"
-              placeholder="请输入用户名/邮箱"
-            ></el-input>
+        <el-form label-position="top" style="margin-top: 5em" ref="formRef" :rules="loginRules" :model="formState">
+          <el-form-item label="邮箱" prop="username">
+            <el-input v-model.trim="formState.username" placeholder="请输入用户名/邮箱"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input
-              v-model.trim="formState.password"
-              type="password"
-              placeholder="请输入密码，六位数以上"
-              @keyup.enter="goLogin"
-            >
+            <el-input v-model.trim="formState.password" type="password" placeholder="请输入密码，六位数以上" @keyup.enter="goLogin">
             </el-input>
           </el-form-item>
           <el-form-item>
             <div style="display: flex; justify-content: center">
-              <el-button
-                @click="goLogin"
-                type="success"
-                round
-                @keyup.enter="goLogin"
-                >登录</el-button
-              >
+              <el-button @click="goLogin" type="success" round @keyup.enter="goLogin">登录</el-button>
             </div>
             <div style="display: flex; justify-content: flex-end">
               <p>
-                还没注册？<el-link
-                  style="color: white"
-                  type="success"
-                  @click="goRegister"
-                  >点击这里
+                还没注册？<el-link style="color: white" type="success" @click="goRegister">点击这里
                 </el-link>
               </p>
             </div>
@@ -68,17 +44,17 @@ import { login } from '@/api/user/login'
 export default defineComponent({
   setup: () => {
     interface FormState {
-      email: string
+      username: string
       password: string
     }
     const router = useRouter()
     const formRef = ref()
     const formState: FormState = reactive({
-      email: '',
+      username: '',
       password: '',
     })
     const loginRules = reactive({
-      email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+      username: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
       password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
         { min: 8, max: 16, message: '长度在 8 到 16 个字符', trigger: 'blur' },
@@ -95,7 +71,10 @@ export default defineComponent({
         })
         try {
           if (valid) {
-            const { code, data } = await login(formState)
+            const { code, data } = await login({
+              ...formState,
+              email: formState.username,
+            })
             if (code == 200) {
               setToken(data.token, data.id)
               router.push('/Home')
@@ -109,12 +88,7 @@ export default defineComponent({
         loadingInstance.close()
       })
     }
-    return {
-      formRef,
-      formState,
-      loginRules,
-      goLogin,
-    }
+    return { formRef, formState, loginRules, goLogin }
   },
 })
 </script>
