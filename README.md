@@ -1,3 +1,5 @@
+注意，该项目更成熟的应用已迁移到了 git@github.com:zhoushangdeng/library.git 此项目中，后续git@github.com:zhoushangdeng/library.git会持续更新
+
 # shangdeng
 
 ## 切换到my-vue-app目录下,运行前端项目
